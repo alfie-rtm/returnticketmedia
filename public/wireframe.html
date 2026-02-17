@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Return Ticket Media — Wireframe</title>
+<style>
+  :root {
+    --bg: #050505;
+    --surface: #0A0A0A;
+    --card: #141414;
+    --accent: #C8A97D;
+    --text: #F5F5F5;
+    --muted: #999;
+    --dim: #555;
+    --border: #1A1A1A;
+    --border-hover: #333;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 80px;
+    min-height: 100vh;
+  }
+
+  /* ========== TOP NAV ========== */
+  .top-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(5,5,5,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-nav .logo {
+    font-size: 14px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .top-nav .logo span { color: var(--accent); }
+  .top-nav .nav-links { display: flex; gap: 32px; }
+  .top-nav .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 13px;
+    letter-spacing: 0.05em; transition: color 0.3s;
+  }
+  .top-nav .nav-links a:hover, .top-nav .nav-links a.active { color: var(--text); }
+  @media (max-width: 768px) {
+    .top-nav { padding: 16px 20px; }
+    .top-nav .nav-links { display: none; }
+  }
+
+  /* ========== BOTTOM NAV ========== */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 8px 16px;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border);
+    height: 68px;
+  }
+  .bottom-nav .nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    text-decoration: none; color: var(--dim); font-size: 10px;
+    letter-spacing: 0.05em; transition: color 0.3s; cursor: pointer;
+    background: none; border: none;
+  }
+  .bottom-nav .nav-item:hover, .bottom-nav .nav-item.active { color: var(--accent); }
+  .bottom-nav .nav-item .icon {
+    width: 20px; height: 20px; border: 1.5px solid currentColor; border-radius: 4px;
+  }
+  .bottom-nav .nav-item.cta-btn {
+    background: var(--accent); color: var(--bg); padding: 10px 16px;
+    border-radius: 8px; font-weight: 600; font-size: 11px;
+    flex-direction: row; gap: 6px; letter-spacing: 0.05em;
+  }
+  .bottom-nav .nav-item.cta-btn .icon { display: none; }
+
+  /* ========== PAGE TABS ========== */
+  .page-tabs {
+    position: fixed; top: 65px; left: 0; right: 0; z-index: 90;
+    display: flex; gap: 0; background: #111; border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+  }
+  .page-tabs button {
+    background: none; border: none; color: var(--dim); padding: 12px 24px;
+    font-size: 12px; font-family: inherit; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; white-space: nowrap;
+    border-bottom: 2px solid transparent; transition: all 0.3s;
+  }
+  .page-tabs button:hover { color: var(--muted); }
+  .page-tabs button.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ========== MAIN CONTENT ========== */
+  .page { display: none; padding-top: 120px; }
+  .page.active { display: block; }
+
+  /* ========== SECTION BLOCKS ========== */
+  .section {
+    padding: 80px 48px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .section-full {
+    padding: 80px 48px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .section-full .inner {
+    max-width: 1280px; margin: 0 auto;
+  }
+  @media (max-width: 768px) {
+    .section, .section-full { padding: 48px 20px; }
+  }
+
+  /* ========== WIREFRAME ELEMENTS ========== */
+  .label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--accent); font-weight: 500; margin-bottom: 12px;
+  }
+  .heading-xl {
+    font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 800;
+    letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 24px;
+  }
+  .heading-lg {
+    font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700;
+    letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 20px;
+  }
+  .heading-md {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem); font-weight: 600;
+    line-height: 1.2; margin-bottom: 12px;
+  }
+  .subtitle {
+    font-size: clamp(0.95rem, 1.5vw, 1.125rem); color: var(--muted);
+    line-height: 1.7; max-width: 640px;
+  }
+  .placeholder-box {
+    background: var(--card); border: 1px dashed var(--border-hover);
+    border-radius: 8px; padding: 24px; min-height: 60px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--dim); font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .placeholder-box.tall { min-height: 200px; }
+  .placeholder-box.hero-height { min-height: 70vh; flex-direction: column; gap: 24px; }
+
+  /* ========== GRIDS ========== */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .grid-5 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .grid-asym { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; align-items: center; }
+  @media (max-width: 1024px) {
+    .grid-3, .grid-4, .grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .grid-asym { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
+  }
+
+  /* ========== BUTTONS ========== */
+  .btn {
+    display: inline-block; padding: 14px 32px; font-size: 13px;
+    font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    border-radius: 6px; cursor: pointer; transition: all 0.3s;
+    text-decoration: none; border: none; font-family: inherit;
+  }
+  .btn-gold { background: var(--accent); color: var(--bg); }
+  .btn-gold:hover { background: #D4B896; }
+  .btn-outline { background: none; border: 1.5px solid var(--accent); color: var(--accent); }
+  .btn-outline:hover { background: rgba(200,169,125,0.1); }
+  .btn-group { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 32px; }
+
+  /* ========== STATS BAR ========== */
+  .stats-bar {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+  }
+  .stats-bar .stat {
+    background: var(--surface); padding: 40px 24px; text-align: center;
+  }
+  .stats-bar .stat .num {
+    font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 800;
+    color: var(--accent); margin-bottom: 8px;
+  }
+  .stats-bar .stat .stat-label { font-size: 12px; color: var(--muted); letter-spacing: 0.05em; }
+  @media (max-width: 768px) {
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ========== CARDS ========== */
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 32px; transition: all 0.3s;
+  }
+  .card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+  .card .card-label { font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px; }
+  .card .card-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 12px; line-height: 1.3; }
+  .card .card-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+  .card .card-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; letter-spacing: 0.03em; }
+
+  /* ========== SERVICE BLOCK ========== */
+  .service-block {
+    padding: 64px 0; border-bottom: 1px solid var(--border);
+  }
+  .service-block:last-child { border-bottom: none; }
+  .service-block .service-num {
+    font-size: 80px; font-weight: 800; color: var(--card);
+    line-height: 1; margin-bottom: 16px;
+  }
+  .deliverables { list-style: none; padding: 0; margin-top: 24px; }
+  .deliverables li {
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+    font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 12px;
+  }
+  .deliverables li::before { content: "—"; color: var(--accent); }
+
+  /* ========== CASE STUDY DETAIL ========== */
+  .result-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 32px 0; }
+  .result-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 32px; text-align: center;
+  }
+  .result-card .result-num { font-size: 2.5rem; font-weight: 800; color: var(--accent); }
+  .result-card .result-label { font-size: 13px; color: var(--muted); margin-top: 8px; }
+  @media (max-width: 640px) { .result-cards { grid-template-columns: 1fr; } }
+
+  /* ========== TESTIMONIAL ========== */
+  .testimonial {
+    border-left: 3px solid var(--accent); padding-left: 32px;
+    margin: 48px 0; max-width: 640px;
+  }
+  .testimonial .quote { font-size: 1.125rem; font-style: italic; color: var(--muted); line-height: 1.7; }
+  .testimonial .attribution { margin-top: 16px; font-size: 13px; color: var(--dim); }
+
+  /* ========== CONTACT FORM ========== */
+  .form-group { margin-bottom: 20px; }
+  .form-group label {
+    display: block; font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--muted); margin-bottom: 8px;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 14px 16px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 6px;
+    color: var(--text); font-size: 14px; font-family: inherit;
+    transition: border-color 0.3s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none; border-color: var(--accent);
+  }
+  .form-group textarea { min-height: 120px; resize: vertical; }
+
+  /* ========== FAQ ========== */
+  .faq-item {
+    border-bottom: 1px solid var(--border); padding: 20px 0;
+  }
+  .faq-q {
+    font-size: 1rem; font-weight: 500; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .faq-q::after { content: "+"; color: var(--accent); font-size: 1.25rem; }
+  .faq-a { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-top: 12px; display: none; }
+  .faq-item.open .faq-a { display: block; }
+  .faq-item.open .faq-q::after { content: "−"; }
+
+  /* ========== CTA SECTION ========== */
+  .cta-section {
+    text-align: center; padding: 120px 48px;
+    background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%);
+    border-top: 1px solid var(--border);
+  }
+  .cta-section .heading-lg { max-width: 700px; margin: 0 auto 16px; }
+  .cta-section .subtitle { max-width: 500px; margin: 0 auto 32px; text-align: center; }
+
+  /* ========== POPUP ========== */
+  .popup-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center;
+  }
+  .popup-overlay.show { display: flex; }
+  .popup-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 48px; max-width: 480px; width: 90%;
+    position: relative; text-align: center;
+  }
+  .popup-close {
+    position: absolute; top: 16px; right: 16px; background: none;
+    border: none; color: var(--muted); font-size: 24px; cursor: pointer;
+    width: 32px; height: 32px; display: flex; align-items: center;
+    justify-content: center; transition: color 0.3s;
+  }
+  .popup-close:hover { color: var(--text); }
+  .popup-card .label { text-align: center; }
+  .popup-card .heading-md { text-align: center; }
+  .popup-card .subtitle { text-align: center; margin: 0 auto 24px; }
+  .popup-email-row { display: flex; gap: 12px; margin-top: 24px; }
+  .popup-email-row input { flex: 1; }
+  @media (max-width: 640px) {
+    .popup-card { border-radius: 16px 16px 0 0; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-width: 100%; }
+    .popup-email-row { flex-direction: column; }
+  }
+
+  /* ========== FOOTER ========== */
+  .footer {
+    background: var(--surface); border-top: 1px solid var(--border);
+    padding: 64px 48px 32px; margin-bottom: 68px;
+  }
+  .footer .inner { max-width: 1280px; margin: 0 auto; }
+  .footer .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .footer .footer-brand .logo { font-size: 14px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; }
+  .footer .footer-brand .logo span { color: var(--accent); }
+  .footer .footer-brand .tagline { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .footer .footer-col h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 16px; }
+  .footer .footer-col a { display: block; color: var(--muted); text-decoration: none; font-size: 13px; padding: 4px 0; transition: color 0.3s; }
+  .footer .footer-col a:hover { color: var(--text); }
+  .footer .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: var(--dim); }
+  @media (max-width: 768px) {
+    .footer { padding: 48px 20px 24px; }
+    .footer .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 480px) {
+    .footer .footer-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ========== HERO ========== */
+  .hero {
+    min-height: 85vh; display: flex; flex-direction: column;
+    justify-content: center; padding: 120px 48px 80px;
+    max-width: 1280px; margin: 0 auto;
+  }
+  .hero .subtitle { margin-bottom: 0; }
+  @media (max-width: 768px) { .hero { padding: 80px 20px 48px; min-height: 70vh; } }
+
+  .scroll-indicator {
+    text-align: center; padding-bottom: 32px; color: var(--dim);
+    font-size: 12px; letter-spacing: 0.1em; animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  /* ========== WIREFRAME NOTE ========== */
+  .wireframe-banner {
+    background: var(--accent); color: var(--bg); text-align: center;
+    padding: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  }
+  .top-nav { top: 28px; }
+  .page-tabs { top: 93px; }
+  .page { padding-top: 148px; }
+  .hero { padding-top: 40px; }
+
+  /* ========== POPUP TRIGGER ========== */
+  .popup-trigger {
+    position: fixed; bottom: 80px; right: 20px; z-index: 90;
+    background: var(--accent); color: var(--bg); border: none;
+    padding: 10px 16px; border-radius: 8px; font-size: 11px;
+    font-weight: 600; letter-spacing: 0.05em; cursor: pointer;
+    font-family: inherit; box-shadow: 0 4px 20px rgba(200,169,125,0.3);
+  }
+
+  /* ========== JOURNEY TIMELINE ========== */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 2px; background: var(--border);
+  }
+  .timeline-item { position: relative; padding-bottom: 48px; }
+  .timeline-item::before {
+    content: ""; position: absolute; left: -37px; top: 6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg);
+  }
+  .timeline-item .heading-md { margin-bottom: 8px; }
+  .timeline-item .subtitle { margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+<!-- WIREFRAME BANNER -->
+<div class="wireframe-banner">Wireframe Preview — All Content Is Holding Copy</div>
+
+<!-- TOP NAVIGATION -->
+<nav class="top-nav">
+  <div class="logo">RETURN TICKET <span>.</span> MEDIA</div>
+  <div class="nav-links">
+    <a href="#" class="active" onclick="showPage('home')">Home</a>
+    <a href="#" onclick="showPage('about')">About</a>
+    <a href="#" onclick="showPage('services')">Services</a>
+    <a href="#" onclick="showPage('case-studies')">Case Studies</a>
+    <a href="#" onclick="showPage('contact')">Contact</a>
+  </div>
+</nav>
+
+<!-- PAGE TABS (for wireframe navigation) -->
+<div class="page-tabs" id="pageTabs">
+  <button class="active" onclick="showPage('home')">Homepage</button>
+  <button onclick="showPage('about')">About</button>
+  <button onclick="showPage('services')">Services</button>
+  <button onclick="showPage('case-studies')">Case Studies</button>
+  <button onclick="showPage('case-study-detail')">Case Study Detail</button>
+  <button onclick="showPage('contact')">Contact</button>
+</div>
+
+<!-- ============================================================ -->
+<!-- HOMEPAGE -->
+<!-- ============================================================ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="label">Influencer Marketing Agency</div>
+    <h1 class="heading-xl">Holding Headline<br>Goes Here.</h1>
+    <p class="subtitle">Holding subtitle text — one or two sentences describing the agency's value proposition. This will be replaced with approved copy.</p>
+    <div class="btn-group">
+      <a class="btn btn-gold">Book a Strategy Call</a>
+      <a class="btn btn-outline">See Our Work</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">↓ SCROLL</div>
+
+  <!-- Stats Bar -->
+  <div class="section-full">
+    <div class="stats-bar">
+      <div class="stat"><div class="num">10M+</div><div class="stat-label">Stat Label</div></div>
+      <div class="stat"><div class="num">500+</div><div class="stat-label">Stat Label</div></div>
+      <div class="stat"><div class="num">5+</div><div class="stat-label">Stat Label</div></div>
+      <div class="stat"><div class="num">3</div><div class="stat-label">Stat Label</div></div>
+    </div>
+  </div>
+
+  <!-- Services Overview -->
+  <div class="section">
+    <div class="label">Services</div>
+    <h2 class="heading-lg">Section Heading</h2>
+    <p class="subtitle" style="margin-bottom:48px;">Holding subtitle about services.</p>
+    <div class="grid-5">
+      <div class="card">
+        <div class="card-label">01</div>
+        <div class="card-title">Influencer Marketing</div>
+        <div class="card-desc">Holding description text for this service offering.</div>
+        <a class="card-link">Learn more →</a>
+      </div>
+      <div class="card">
+        <div class="card-label">02</div>
+        <div class="card-title">Influencer Strategy</div>
+        <div class="card-desc">Holding description text for this service offering.</div>
+        <a class="card-link">Learn more →</a>
+      </div>
+      <div class="card">
+        <div class="card-label">03</div>
+        <div class="card-title">Nano-Creator Head-Hunting</div>
+        <div class="card-desc">Holding description text for this service offering.</div>
+        <a class="card-link">Learn more →</a>
+      </div>
+      <div class="card">
+        <div class="card-label">04</div>
+        <div class="card-title">Creator Brand Building</div>
+        <div class="card-desc">Holding description text for this service offering.</div>
+        <a class="card-link">Learn more →</a>
+      </div>
+      <div class="card">
+        <div class="card-label">05</div>
+        <div class="card-title">Influencer Consulting</div>
+        <div class="card-desc">Holding description text for this service offering.</div>
+        <a class="card-link">Learn more →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Founder Preview -->
+  <div class="section">
+    <div class="grid-asym">
+      <div>
+        <div class="label">About the Founder</div>
+        <h2 class="heading-lg">Holding Founder Headline</h2>
+        <p class="subtitle" style="margin-bottom:16px;">Holding paragraph about the founder's journey and background. This will be replaced with approved copy about Alfie Richards.</p>
+        <p class="subtitle" style="margin-bottom:24px;">Second holding paragraph with more founder details.</p>
+        <a class="card-link">Read the Full Story →</a>
+      </div>
+      <div class="placeholder-box tall">Decorative Element / Image Area</div>
+    </div>
+  </div>
+
+  <!-- Featured Case Studies -->
+  <div class="section-full">
+    <div class="inner">
+      <div class="label">Selected Work</div>
+      <h2 class="heading-lg">Section Heading</h2>
+      <div class="grid-3" style="margin-top:40px;">
+        <div class="card">
+          <div class="card-label">Category</div>
+          <div class="card-title">Case Study Title</div>
+          <div class="card-desc">Key result metric — holding copy</div>
+          <a class="card-link">Read Case Study →</a>
+        </div>
+        <div class="card">
+          <div class="card-label">Category</div>
+          <div class="card-title">Case Study Title</div>
+          <div class="card-desc">Key result metric — holding copy</div>
+          <a class="card-link">Read Case Study →</a>
+        </div>
+        <div class="card">
+          <div class="card-label">Category</div>
+          <div class="card-title">Case Study Title</div>
+          <div class="card-desc">Key result metric — holding copy</div>
+          <a class="card-link">Read Case Study →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="heading-lg">Holding CTA Headline</div>
+    <p class="subtitle">Holding subtitle for the call-to-action section.</p>
+    <a class="btn btn-gold">Book a Strategy Call</a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">RETURN TICKET <span>.</span> MEDIA</div>
+          <p class="tagline">Holding tagline — one line about the agency.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <a href="#">Home</a><a href="#">About</a><a href="#">Services</a>
+          <a href="#">Case Studies</a><a href="#">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <a href="#">Influencer Marketing</a><a href="#">Influencer Strategy</a>
+          <a href="#">Nano-Creator Head-Hunting</a><a href="#">Creator Brand Building</a>
+          <a href="#">Influencer Consulting</a>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <a href="#">hello@returnticketmedia.com</a>
+          <a href="#">LinkedIn</a><a href="#">Instagram</a><a href="#">TikTok</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Return Ticket Media. All rights reserved.</span>
+        <span>London, UK</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================================================ -->
+<!-- ABOUT PAGE -->
+<!-- ============================================================ -->
+<div class="page" id="page-about">
+  <div class="hero">
+    <div class="label">About</div>
+    <h1 class="heading-xl">Holding About<br>Page Headline.</h1>
+    <p class="subtitle">Holding subtitle about the founder's journey and the story behind Return Ticket Media.</p>
+  </div>
+
+  <!-- The Journey Timeline -->
+  <div class="section">
+    <div class="label">The Journey</div>
+    <h2 class="heading-lg" style="margin-bottom:48px;">Holding Section Heading</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="heading-md">The Beginning</div>
+        <p class="subtitle">Holding copy about how the journey began. Details to be provided.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="heading-md">The Rise</div>
+        <p class="subtitle">Holding copy about building a following and early successes.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="heading-md">The Challenge</div>
+        <p class="subtitle">Holding copy about the challenges faced and lessons learned.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="heading-md">The Rebuild</div>
+        <p class="subtitle">Holding copy about the rebuilding journey and founding RTM.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="heading-md">The Inside Track</div>
+        <p class="subtitle">Holding copy about industry expertise and unique positioning.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why RTM is Different -->
+  <div class="section-full">
+    <div class="inner">
+      <div class="label">Why Us</div>
+      <h2 class="heading-lg" style="margin-bottom:40px;">Holding Section Heading</h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-label">Differentiator 01</div>
+          <div class="card-title">Holding Card Title</div>
+          <div class="card-desc">Holding description about this differentiator.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Differentiator 02</div>
+          <div class="card-title">Holding Card Title</div>
+          <div class="card-desc">Holding description about this differentiator.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Differentiator 03</div>
+          <div class="card-title">Holding Card Title</div>
+          <div class="card-desc">Holding description about this differentiator.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Values -->
+  <div class="section">
+    <div class="label">Our Values</div>
+    <h2 class="heading-lg" style="margin-bottom:40px;">Holding Section Heading</h2>
+    <div class="grid-3">
+      <div class="card" style="text-align:center;">
+        <div class="card-title">Value One</div>
+        <div class="card-desc">Holding value description.</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="card-title">Value Two</div>
+        <div class="card-desc">Holding value description.</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="card-title">Value Three</div>
+        <div class="card-desc">Holding value description.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="heading-lg">Holding CTA Headline</div>
+    <p class="subtitle">Holding subtitle text.</p>
+    <a class="btn btn-gold">Book a Strategy Call</a>
+  </div>
+
+  <footer class="footer"><div class="inner"><div class="footer-bottom"><span>&copy; 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
+</div>
+
+<!-- ============================================================ -->
+<!-- SERVICES PAGE -->
+<!-- ============================================================ -->
+<div class="page" id="page-services">
+  <div class="hero">
+    <div class="label">Services</div>
+    <h1 class="heading-xl">Holding Services<br>Headline.</h1>
+    <p class="subtitle">Holding subtitle about the agency's service offerings.</p>
+  </div>
+
+  <div class="section">
+    <!-- Service 1 -->
+    <div class="service-block">
+      <div class="grid-asym">
+        <div>
+          <div class="service-num">01</div>
+          <h3 class="heading-lg">Influencer Marketing</h3>
+          <p class="subtitle">Holding description for this service.</p>
+          <ul class="deliverables">
+            <li>Deliverable one — holding</li>
+            <li>Deliverable two — holding</li>
+            <li>Deliverable three — holding</li>
+            <li>Deliverable four — holding</li>
+            <li>Deliverable five — holding</li>
+          </ul>
+          <div style="margin-top:32px;"><a class="btn btn-outline">Get Started →</a></div>
+        </div>
+        <div class="placeholder-box tall">Visual / Icon Area</div>
+      </div>
+    </div>
+
+    <!-- Service 2 -->
+    <div class="service-block">
+      <div class="grid-asym" style="direction:rtl;">
+        <div style="direction:ltr;">
+          <div class="service-num">02</div>
+          <h3 class="heading-lg">Influencer Strategy</h3>
+          <p class="subtitle">Holding description for this service.</p>
+          <ul class="deliverables">
+            <li>Deliverable one — holding</li>
+            <li>Deliverable two — holding</li>
+            <li>Deliverable three — holding</li>
+            <li>Deliverable four — holding</li>
+            <li>Deliverable five — holding</li>
+          </ul>
+          <div style="margin-top:32px;"><a class="btn btn-outline">Get Started →</a></div>
+        </div>
+        <div class="placeholder-box tall" style="direction:ltr;">Visual / Icon Area</div>
+      </div>
+    </div>
+
+    <!-- Service 3 -->
+    <div class="service-block">
+      <div class="grid-asym">
+        <div>
+          <div class="service-num">03</div>
+          <h3 class="heading-lg">Nano-Creator Head-Hunting</h3>
+          <p class="subtitle">Holding description for this service.</p>
+          <ul class="deliverables">
+            <li>Deliverable one — holding</li>
+            <li>Deliverable two — holding</li>
+            <li>Deliverable three — holding</li>
+            <li>Deliverable four — holding</li>
+            <li>Deliverable five — holding</li>
+          </ul>
+          <div style="margin-top:32px;"><a class="btn btn-outline">Get Started →</a></div>
+        </div>
+        <div class="placeholder-box tall">Visual / Icon Area</div>
+      </div>
+    </div>
+
+    <!-- Service 4 -->
+    <div class="service-block">
+      <div class="grid-asym" style="direction:rtl;">
+        <div style="direction:ltr;">
+          <div class="service-num">04</div>
+          <h3 class="heading-lg">Creator Brand Building</h3>
+          <p class="subtitle">Holding description for this service.</p>
+          <ul class="deliverables">
+            <li>Deliverable one — holding</li>
+            <li>Deliverable two — holding</li>
+            <li>Deliverable three — holding</li>
+            <li>Deliverable four — holding</li>
+            <li>Deliverable five — holding</li>
+          </ul>
+          <div style="margin-top:32px;"><a class="btn btn-outline">Get Started →</a></div>
+        </div>
+        <div class="placeholder-box tall" style="direction:ltr;">Visual / Icon Area</div>
+      </div>
+    </div>
+
+    <!-- Service 5 -->
+    <div class="service-block">
+      <div class="grid-asym">
+        <div>
+          <div class="service-num">05</div>
+          <h3 class="heading-lg">Influencer Consulting</h3>
+          <p class="subtitle">Holding description for this service.</p>
+          <ul class="deliverables">
+            <li>Deliverable one — holding</li>
+            <li>Deliverable two — holding</li>
+            <li>Deliverable three — holding</li>
+            <li>Deliverable four — holding</li>
+            <li>Deliverable five — holding</li>
+          </ul>
+          <div style="margin-top:32px;"><a class="btn btn-outline">Get Started →</a></div>
+        </div>
+        <div class="placeholder-box tall">Visual / Icon Area</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="heading-lg">Holding CTA Headline</div>
+    <p class="subtitle">Holding subtitle text.</p>
+    <a class="btn btn-gold">Book a Strategy Call</a>
+  </div>
+
+  <footer class="footer"><div class="inner"><div class="footer-bottom"><span>&copy; 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
+</div>
+
+<!-- ============================================================ -->
+<!-- CASE STUDIES LISTING -->
+<!-- ============================================================ -->
+<div class="page" id="page-case-studies">
+  <div class="hero">
+    <div class="label">Our Work</div>
+    <h1 class="heading-xl">Holding Case<br>Studies Headline.</h1>
+    <p class="subtitle">Holding subtitle about the agency's work and results.</p>
+  </div>
+
+  <div class="section">
+    <div class="grid-2" style="gap:32px;">
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div class="placeholder-box" style="min-height:200px; border-radius:12px 12px 0 0; border:none;">Featured Image Area</div>
+        <div style="padding:32px;">
+          <div class="card-label">Category — holding</div>
+          <div class="card-title">Case Study Title — Holding</div>
+          <div class="card-desc">Key result: XX% improvement — holding copy</div>
+          <a class="card-link">Read Case Study →</a>
+        </div>
+      </div>
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div class="placeholder-box" style="min-height:200px; border-radius:12px 12px 0 0; border:none;">Featured Image Area</div>
+        <div style="padding:32px;">
+          <div class="card-label">Category — holding</div>
+          <div class="card-title">Case Study Title — Holding</div>
+          <div class="card-desc">Key result: XX% improvement — holding copy</div>
+          <a class="card-link">Read Case Study →</a>
+        </div>
+      </div>
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div class="placeholder-box" style="min-height:200px; border-radius:12px 12px 0 0; border:none;">Featured Image Area</div>
+        <div style="padding:32px;">
+          <div class="card-label">Category — holding</div>
+          <div class="card-title">Case Study Title — Holding</div>
+          <div class="card-desc">Key result: XX% improvement — holding copy</div>
+          <a class="card-link">Read Case Study →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer"><div class="inner"><div class="footer-bottom"><span>&copy; 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
+</div>
+
+<!-- ============================================================ -->
+<!-- CASE STUDY DETAIL -->
+<!-- ============================================================ -->
+<div class="page" id="page-case-study-detail">
+  <div class="hero">
+    <div class="label">Case Study — Category</div>
+    <h1 class="heading-xl">Holding Case<br>Study Title.</h1>
+    <p class="subtitle">Client: [Client Name] — holding copy</p>
+  </div>
+
+  <!-- Challenge -->
+  <div class="section">
+    <div class="grid-asym">
+      <div>
+        <div class="label">The Challenge</div>
+        <h2 class="heading-lg">Holding Section Heading</h2>
+        <p class="subtitle">Holding paragraph describing the client's challenge. This will be replaced with real case study content.</p>
+      </div>
+      <div class="placeholder-box tall">Supporting Visual</div>
+    </div>
+  </div>
+
+  <!-- Strategy -->
+  <div class="section-full">
+    <div class="inner">
+      <div class="label">The Strategy</div>
+      <h2 class="heading-lg">Holding Section Heading</h2>
+      <p class="subtitle" style="margin-bottom:32px;">Holding paragraph describing the strategic approach taken.</p>
+      <div class="grid-3">
+        <div class="card"><div class="card-title">Step 1</div><div class="card-desc">Holding strategy step description.</div></div>
+        <div class="card"><div class="card-title">Step 2</div><div class="card-desc">Holding strategy step description.</div></div>
+        <div class="card"><div class="card-title">Step 3</div><div class="card-desc">Holding strategy step description.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="section">
+    <div class="label">The Results</div>
+    <h2 class="heading-lg" style="margin-bottom:32px;">Holding Section Heading</h2>
+    <div class="result-cards">
+      <div class="result-card"><div class="result-num">340%</div><div class="result-label">Metric Label — holding</div></div>
+      <div class="result-card"><div class="result-num">2.4M</div><div class="result-label">Metric Label — holding</div></div>
+      <div class="result-card"><div class="result-num">8.7%</div><div class="result-label">Metric Label — holding</div></div>
+    </div>
+
+    <!-- Testimonial -->
+    <div class="testimonial">
+      <p class="quote">"Holding testimonial quote from the client. This will be replaced with real client feedback."</p>
+      <p class="attribution">— Client Name, Role — holding</p>
+    </div>
+  </div>
+
+  <!-- Next Case Study -->
+  <div class="cta-section">
+    <div class="label">Next Case Study</div>
+    <div class="heading-lg">Next Case Study Title — Holding</div>
+    <a class="btn btn-outline" style="margin-top:16px;">Read Next →</a>
+  </div>
+
+  <footer class="footer"><div class="inner"><div class="footer-bottom"><span>&copy; 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
+</div>
+
+<!-- ============================================================ -->
+<!-- CONTACT PAGE -->
+<!-- ============================================================ -->
+<div class="page" id="page-contact">
+  <div class="hero">
+    <div class="label">Contact</div>
+    <h1 class="heading-xl">Holding Contact<br>Headline.</h1>
+    <p class="subtitle">Holding subtitle — invitation to get in touch.</p>
+  </div>
+
+  <div class="section">
+    <div class="grid-asym">
+      <!-- Contact Form -->
+      <div>
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Holding placeholder">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="Holding placeholder">
+        </div>
+        <div class="form-group">
+          <label>Company</label>
+          <input type="text" placeholder="Holding placeholder">
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Budget Range</label>
+            <select>
+              <option>Select budget</option>
+              <option>&lt; £5,000</option>
+              <option>£5,000 – £15,000</option>
+              <option>£15,000 – £50,000</option>
+              <option>£50,000+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Service Interest</label>
+            <select>
+              <option>Select service</option>
+              <option>Influencer Marketing</option>
+              <option>Influencer Strategy</option>
+              <option>Nano-Creator Head-Hunting</option>
+              <option>Creator Brand Building</option>
+              <option>Influencer Consulting</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Holding placeholder"></textarea>
+        </div>
+        <button class="btn btn-gold" style="width:100%;">Send Message</button>
+      </div>
+
+      <!-- Contact Info -->
+      <div>
+        <div style="margin-bottom:40px;">
+          <div class="label">Get in Touch</div>
+          <h3 class="heading-md">Direct Contact</h3>
+          <p class="subtitle" style="margin-bottom:24px;">hello@returnticketmedia.com</p>
+          <div style="display:flex; gap:16px; flex-wrap:wrap;">
+            <a class="btn btn-outline" style="padding:10px 20px; font-size:12px;">LinkedIn</a>
+            <a class="btn btn-outline" style="padding:10px 20px; font-size:12px;">Instagram</a>
+            <a class="btn btn-outline" style="padding:10px 20px; font-size:12px;">TikTok</a>
+          </div>
+        </div>
+        <div>
+          <div class="label">Location</div>
+          <h3 class="heading-md">London, UK</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section-full">
+    <div class="inner">
+      <div class="label">FAQ</div>
+      <h2 class="heading-lg" style="margin-bottom:32px;">Holding Section Heading</h2>
+      <div>
+        <div class="faq-item" onclick="this.classList.toggle('open')">
+          <div class="faq-q">Holding FAQ question one?</div>
+          <div class="faq-a">Holding answer text — this will be replaced with approved copy.</div>
+        </div>
+        <div class="faq-item" onclick="this.classList.toggle('open')">
+          <div class="faq-q">Holding FAQ question two?</div>
+          <div class="faq-a">Holding answer text — this will be replaced with approved copy.</div>
+        </div>
+        <div class="faq-item" onclick="this.classList.toggle('open')">
+          <div class="faq-q">Holding FAQ question three?</div>
+          <div class="faq-a">Holding answer text — this will be replaced with approved copy.</div>
+        </div>
+        <div class="faq-item" onclick="this.classList.toggle('open')">
+          <div class="faq-q">Holding FAQ question four?</div>
+          <div class="faq-a">Holding answer text — this will be replaced with approved copy.</div>
+        </div>
+        <div class="faq-item" onclick="this.classList.toggle('open')">
+          <div class="faq-q">Holding FAQ question five?</div>
+          <div class="faq-a">Holding answer text — this will be replaced with approved copy.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer"><div class="inner"><div class="footer-bottom"><span>&copy; 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
+</div>
+
+<!-- ============================================================ -->
+<!-- BOTTOM NAVIGATION -->
+<!-- ============================================================ -->
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="showPage('home')">
+    <div class="icon"></div>
+    Home
+  </button>
+  <button class="nav-item" onclick="showPage('about')">
+    <div class="icon"></div>
+    About
+  </button>
+  <button class="nav-item" onclick="showPage('services')">
+    <div class="icon"></div>
+    Services
+  </button>
+  <button class="nav-item" onclick="showPage('case-studies')">
+    <div class="icon"></div>
+    Work
+  </button>
+  <button class="nav-item" onclick="showPage('contact')">
+    <div class="icon"></div>
+    Contact
+  </button>
+  <button class="nav-item cta-btn">Book a Call</button>
+</nav>
+
+<!-- ============================================================ -->
+<!-- LEAD POPUP -->
+<!-- ============================================================ -->
+<button class="popup-trigger" onclick="document.getElementById('leadPopup').classList.add('show')">
+  Preview Popup →
+</button>
+
+<div class="popup-overlay" id="leadPopup">
+  <div class="popup-card">
+    <button class="popup-close" onclick="document.getElementById('leadPopup').classList.remove('show')">&times;</button>
+    <div class="label">Free Download</div>
+    <div class="heading-md" style="margin-bottom:8px;">Holding Popup Headline</div>
+    <p class="subtitle">Holding description — what the guide covers and why it's valuable. All copy is placeholder.</p>
+    <div class="popup-email-row">
+      <input type="email" placeholder="Your email address" style="padding:14px 16px; background:var(--card); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:14px; font-family:inherit;">
+      <button class="btn btn-gold" style="white-space:nowrap;">Download Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- JAVASCRIPT -->
+<!-- ============================================================ -->
+<script>
+function showPage(pageId) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Show target page
+  const target = document.getElementById('page-' + pageId);
+  if (target) target.classList.add('active');
+
+  // Update page tabs
+  document.querySelectorAll('.page-tabs button').forEach(btn => btn.classList.remove('active'));
+  const tabs = document.querySelectorAll('.page-tabs button');
+  tabs.forEach(btn => {
+    const tabName = btn.textContent.trim().toLowerCase().replace(/ /g, '-');
+    const matchMap = {
+      'homepage': 'home', 'about': 'about', 'services': 'services',
+      'case-studies': 'case-studies', 'case-study-detail': 'case-study-detail', 'contact': 'contact'
+    };
+    if (matchMap[tabName] === pageId) btn.classList.add('active');
+  });
+
+  // Update top nav
+  document.querySelectorAll('.top-nav .nav-links a').forEach(a => {
+    a.classList.remove('active');
+    const linkMap = { 'Home': 'home', 'About': 'about', 'Services': 'services', 'Case Studies': 'case-studies', 'Contact': 'contact' };
+    if (linkMap[a.textContent.trim()] === pageId) a.classList.add('active');
+  });
+
+  // Update bottom nav
+  document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => {
+    btn.classList.remove('active');
+    const navMap = { 'Home': 'home', 'About': 'about', 'Services': 'services', 'Work': 'case-studies', 'Contact': 'contact' };
+    const text = btn.textContent.trim();
+    if (navMap[text] === pageId) btn.classList.add('active');
+  });
+
+  // Scroll to top
+  window.scrollTo(0, 0);
+}
+</script>
+
+</body>
+</html>
