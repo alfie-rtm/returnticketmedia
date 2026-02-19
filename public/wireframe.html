@@ -3,1076 +3,512 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Return Ticket Media — Wireframe</title>
+<title>Return Ticket Media</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #050505;
-    --surface: #0A0A0A;
-    --card: #141414;
-    --accent: #C8A97D;
-    --text: #F5F5F5;
-    --muted: #999;
-    --dim: #555;
-    --border: #1A1A1A;
-    --border-hover: #333;
-  }
+:root {
+  --bg:#fff;--bg-alt:#F6F6F6;--bg-dark:#1A1A1A;
+  --text:#1A1A1A;--text-muted:#6B6B6B;--text-light:#999;
+  --accent:#74E7F6;--accent-hover:#5CD4E3;
+  --border:#E5E5E5;--border-dark:#333;
+  --section-py:clamp(80px,10vw,140px);--section-px:clamp(20px,5vw,64px);
+  --max-w:1200px;
+  --hero-size:clamp(3rem,7vw,5.5rem);
+  --heading-size:clamp(2rem,4vw,3.5rem);
+  --body-size:clamp(1rem,1.2vw,1.125rem);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* NAV BAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px var(--section-px);background:transparent;transition:background .4s,border-color .4s,box-shadow .4s;border-bottom:1px solid transparent;}
+.topbar.scrolled{background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom-color:var(--border);box-shadow:0 1px 8px rgba(0,0,0,.04);}
+.topbar .logo{font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;}
+.topbar .logo span{color:var(--accent);}
+.hamburger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:8px;}
+.hamburger span{display:block;width:24px;height:2px;background:var(--text);transition:transform .3s,opacity .3s;}
 
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    padding-bottom: 80px;
-    min-height: 100vh;
-  }
+/* FULL SCREEN MENU */
+.menu-overlay{position:fixed;inset:0;z-index:200;background:var(--bg-dark);display:flex;flex-direction:column;justify-content:center;align-items:center;opacity:0;pointer-events:none;transition:opacity .4s;}
+.menu-overlay.open{opacity:1;pointer-events:all;}
+.menu-close{position:absolute;top:20px;right:var(--section-px);background:none;border:none;color:#fff;font-size:32px;cursor:pointer;padding:8px;}
+.menu-overlay nav{display:flex;flex-direction:column;align-items:center;gap:24px;}
+.menu-overlay nav a{color:#fff;font-size:clamp(1.5rem,4vw,2.5rem);font-weight:600;letter-spacing:-.02em;transition:color .3s;cursor:pointer;}
+.menu-overlay nav a:hover{color:var(--accent);}
+.menu-cta{margin-top:40px;padding:14px 36px;background:var(--accent);color:var(--bg-dark);font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .3s;}
+.menu-cta:hover{background:var(--accent-hover);}
+.menu-socials{position:absolute;bottom:40px;display:flex;gap:24px;color:var(--border-dark);font-size:13px;letter-spacing:.05em;}
+.menu-socials a{color:#999;transition:color .3s;}
+.menu-socials a:hover{color:#fff;}
 
-  /* ========== TOP NAV ========== */
-  .top-nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 48px;
-    background: rgba(5,5,5,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-  .top-nav .logo {
-    font-size: 14px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
-  }
-  .top-nav .logo span { color: var(--accent); }
-  .top-nav .nav-links { display: flex; gap: 32px; }
-  .top-nav .nav-links a {
-    color: var(--muted); text-decoration: none; font-size: 13px;
-    letter-spacing: 0.05em; transition: color 0.3s;
-  }
-  .top-nav .nav-links a:hover, .top-nav .nav-links a.active { color: var(--text); }
-  @media (max-width: 768px) {
-    .top-nav { padding: 16px 20px; }
-    .top-nav .nav-links { display: none; }
-  }
+/* BOTTOM NAV (mobile) */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:6px 8px 10px;justify-content:space-around;align-items:center;}
+@media(max-width:768px){.bottom-nav{display:flex;}}
+.bottom-nav button{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--text-light);cursor:pointer;font-family:inherit;letter-spacing:.03em;padding:4px 8px;transition:color .3s;}
+.bottom-nav button.active{color:var(--accent);}
+.bottom-nav button svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;}
+.bottom-nav .cta-pill{background:var(--accent);color:var(--bg-dark);border-radius:20px;padding:8px 16px;font-size:11px;font-weight:600;letter-spacing:.04em;flex-direction:row;gap:0;}
+.bottom-nav .cta-pill svg{display:none;}
 
-  /* ========== BOTTOM NAV ========== */
-  .bottom-nav {
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-around;
-    padding: 8px 16px;
-    background: rgba(10,10,10,0.92);
-    backdrop-filter: blur(16px);
-    border-top: 1px solid var(--border);
-    height: 68px;
-  }
-  .bottom-nav .nav-item {
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
-    text-decoration: none; color: var(--dim); font-size: 10px;
-    letter-spacing: 0.05em; transition: color 0.3s; cursor: pointer;
-    background: none; border: none;
-  }
-  .bottom-nav .nav-item:hover, .bottom-nav .nav-item.active { color: var(--accent); }
-  .bottom-nav .nav-item .icon {
-    width: 20px; height: 20px; border: 1.5px solid currentColor; border-radius: 4px;
-  }
-  .bottom-nav .nav-item.cta-btn {
-    background: var(--accent); color: var(--bg); padding: 10px 16px;
-    border-radius: 8px; font-weight: 600; font-size: 11px;
-    flex-direction: row; gap: 6px; letter-spacing: 0.05em;
-  }
-  .bottom-nav .nav-item.cta-btn .icon { display: none; }
+/* PAGES */
+.page{display:none;}
+.page.active{display:block;}
 
-  /* ========== PAGE TABS ========== */
-  .page-tabs {
-    position: fixed; top: 65px; left: 0; right: 0; z-index: 90;
-    display: flex; gap: 0; background: #111; border-bottom: 1px solid var(--border);
-    overflow-x: auto;
-  }
-  .page-tabs button {
-    background: none; border: none; color: var(--dim); padding: 12px 24px;
-    font-size: 12px; font-family: inherit; letter-spacing: 0.08em;
-    text-transform: uppercase; cursor: pointer; white-space: nowrap;
-    border-bottom: 2px solid transparent; transition: all 0.3s;
-  }
-  .page-tabs button:hover { color: var(--muted); }
-  .page-tabs button.active { color: var(--accent); border-bottom-color: var(--accent); }
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px var(--section-px) 80px;max-width:var(--max-w);margin:0 auto;}
+.hero-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;font-weight:500;color:var(--accent);margin-bottom:24px;animation:fadeUp .7s ease both;}
+.hero-heading{font-size:var(--hero-size);font-weight:800;letter-spacing:-.03em;line-height:1.08;margin-bottom:28px;max-width:16ch;animation:fadeUp .7s ease .1s both;}
+.hero-heading .hi{color:var(--accent);}
+.hero-sub{font-size:var(--body-size);color:var(--text-muted);line-height:1.7;max-width:520px;margin-bottom:40px;animation:fadeUp .7s ease .2s both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.btn-row{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .7s ease .3s both;}
+.btn{display:inline-block;padding:14px 32px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-radius:4px;cursor:pointer;transition:all .3s;border:none;font-family:inherit;}
+.btn-accent{background:var(--accent);color:var(--bg-dark);}
+.btn-accent:hover{background:var(--accent-hover);}
+.btn-outline{background:none;border:1.5px solid var(--text);color:var(--text);}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);}
 
-  /* ========== MAIN CONTENT ========== */
-  .page { display: none; padding-top: 120px; }
-  .page.active { display: block; }
+/* SECTION */
+.section{padding:var(--section-py) var(--section-px);max-width:var(--max-w);margin:0 auto;}
+.section-alt{padding:var(--section-py) var(--section-px);background:var(--bg-alt);}
+.section-dark{padding:var(--section-py) var(--section-px);background:var(--bg-dark);color:#fff;}
+.section-alt .inner,.section-dark .inner{max-width:var(--max-w);margin:0 auto;}
+.label{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;font-weight:500;color:var(--accent);margin-bottom:16px;}
+.heading{font-size:var(--heading-size);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin-bottom:20px;}
+.sub{font-size:var(--body-size);color:var(--text-muted);line-height:1.7;max-width:560px;}
+.divider{border:none;border-top:1px solid var(--border);margin:0;}
 
-  /* ========== SECTION BLOCKS ========== */
-  .section {
-    padding: 80px 48px;
-    max-width: 1280px;
-    margin: 0 auto;
-  }
-  .section-full {
-    padding: 80px 48px;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .section-full .inner {
-    max-width: 1280px; margin: 0 auto;
-  }
-  @media (max-width: 768px) {
-    .section, .section-full { padding: 48px 20px; }
-  }
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.metric{padding:48px 24px;text-align:center;position:relative;}
+.metric:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:var(--border);}
+.metric .num{font-size:clamp(2rem,4vw,3rem);font-weight:800;color:var(--accent);letter-spacing:-.02em;margin-bottom:8px;}
+.metric .meta{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);font-weight:500;}
+@media(max-width:640px){.metrics{grid-template-columns:1fr 1fr;}.metric:nth-child(2)::after{display:none;}}
 
-  /* ========== WIREFRAME ELEMENTS ========== */
-  .label {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em;
-    color: var(--accent); font-weight: 500; margin-bottom: 12px;
-  }
-  .heading-xl {
-    font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 800;
-    letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 24px;
-  }
-  .heading-lg {
-    font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700;
-    letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 20px;
-  }
-  .heading-md {
-    font-size: clamp(1.2rem, 2.5vw, 1.5rem); font-weight: 600;
-    line-height: 1.2; margin-bottom: 12px;
-  }
-  .subtitle {
-    font-size: clamp(0.95rem, 1.5vw, 1.125rem); color: var(--muted);
-    line-height: 1.7; max-width: 640px;
-  }
-  .placeholder-box {
-    background: var(--card); border: 1px dashed var(--border-hover);
-    border-radius: 8px; padding: 24px; min-height: 60px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--dim); font-size: 12px; text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-  .placeholder-box.tall { min-height: 200px; }
-  .placeholder-box.hero-height { min-height: 70vh; flex-direction: column; gap: 24px; }
+/* SERVICE LIST */
+.service-row{padding:28px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:60px 1fr;gap:16px;align-items:start;cursor:pointer;transition:padding-left .3s;}
+.service-row:hover{padding-left:16px;}
+.service-row .snum{font-size:.75rem;color:var(--accent);font-weight:600;letter-spacing:.1em;padding-top:6px;}
+.service-row h3{font-size:clamp(1.25rem,2.5vw,1.75rem);font-weight:600;letter-spacing:-.01em;margin-bottom:4px;transition:color .3s;}
+.service-row:hover h3{color:var(--accent);}
+.service-row p{font-size:.9rem;color:var(--text-muted);line-height:1.6;}
 
-  /* ========== GRIDS ========== */
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-  .grid-5 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .grid-asym { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; align-items: center; }
-  @media (max-width: 1024px) {
-    .grid-3, .grid-4, .grid-5 { grid-template-columns: repeat(2, 1fr); }
-    .grid-asym { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 640px) {
-    .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
-  }
+/* ASYM GRID */
+.asym{display:grid;grid-template-columns:1.3fr .7fr;gap:clamp(40px,6vw,80px);align-items:center;}
+@media(max-width:768px){.asym{grid-template-columns:1fr;}}
+.deco{aspect-ratio:1;background:var(--bg-alt);border-radius:50%;position:relative;overflow:hidden;}
+.deco::before{content:'';position:absolute;inset:15%;border:1px solid var(--accent);border-radius:50%;opacity:.4;}
 
-  /* ========== BUTTONS ========== */
-  .btn {
-    display: inline-block; padding: 14px 32px; font-size: 13px;
-    font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-    border-radius: 6px; cursor: pointer; transition: all 0.3s;
-    text-decoration: none; border: none; font-family: inherit;
-  }
-  .btn-gold { background: var(--accent); color: var(--bg); }
-  .btn-gold:hover { background: #D4B896; }
-  .btn-outline { background: none; border: 1.5px solid var(--accent); color: var(--accent); }
-  .btn-outline:hover { background: rgba(200,169,125,0.1); }
-  .btn-group { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 32px; }
+/* CASE CARDS */
+.case-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:40px;}
+@media(max-width:768px){.case-grid{grid-template-columns:1fr;}}
+.case-card{background:var(--bg-alt);padding:40px 32px;cursor:pointer;transition:background .3s;}
+.case-card:hover{background:var(--border);}
+.case-card .cat{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);font-weight:500;margin-bottom:12px;}
+.case-card h3{font-size:1.25rem;font-weight:600;margin-bottom:16px;line-height:1.3;}
+.case-card .big-num{font-size:clamp(2.5rem,5vw,3.5rem);font-weight:800;color:var(--accent);letter-spacing:-.03em;margin-bottom:12px;}
+.case-card .link{font-size:.8rem;color:var(--text-muted);letter-spacing:.05em;transition:color .3s;}
+.case-card:hover .link{color:var(--accent);}
 
-  /* ========== STATS BAR ========== */
-  .stats-bar {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
-    background: var(--border); border: 1px solid var(--border);
-  }
-  .stats-bar .stat {
-    background: var(--surface); padding: 40px 24px; text-align: center;
-  }
-  .stats-bar .stat .num {
-    font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 800;
-    color: var(--accent); margin-bottom: 8px;
-  }
-  .stats-bar .stat .stat-label { font-size: 12px; color: var(--muted); letter-spacing: 0.05em; }
-  @media (max-width: 768px) {
-    .stats-bar { grid-template-columns: repeat(2, 1fr); }
-  }
+/* CTA BANNER */
+.cta-banner{text-align:center;}
+.cta-banner .heading{color:#fff;max-width:600px;margin:0 auto 24px;}
+.cta-banner .sub{color:#999;max-width:440px;margin:0 auto 36px;text-align:center;}
 
-  /* ========== CARDS ========== */
-  .card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 12px; padding: 32px; transition: all 0.3s;
-  }
-  .card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
-  .card .card-label { font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px; }
-  .card .card-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 12px; line-height: 1.3; }
-  .card .card-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
-  .card .card-link { color: var(--accent); font-size: 13px; font-weight: 500; text-decoration: none; letter-spacing: 0.03em; }
+/* FOOTER */
+.footer{background:var(--bg-dark);color:#fff;padding:64px var(--section-px) 32px;margin-bottom:0;}
+@media(max-width:768px){.footer{padding-bottom:80px;}}
+.footer .inner{max-width:var(--max-w);margin:0 auto;}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr;gap:24px;}}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr;}}
+.footer h4{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:16px;font-weight:500;}
+.footer a{display:block;color:#999;font-size:.85rem;padding:3px 0;transition:color .3s;cursor:pointer;}
+.footer a:hover{color:#fff;}
+.footer .brand-col .logo{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;}
+.footer .brand-col .logo span{color:var(--accent);}
+.footer .brand-col p{font-size:.85rem;color:#999;line-height:1.6;max-width:280px;}
+.footer-bottom{border-top:1px solid var(--border-dark);padding-top:24px;display:flex;justify-content:space-between;font-size:.75rem;color:#666;}
 
-  /* ========== SERVICE BLOCK ========== */
-  .service-block {
-    padding: 64px 0; border-bottom: 1px solid var(--border);
-  }
-  .service-block:last-child { border-bottom: none; }
-  .service-block .service-num {
-    font-size: 80px; font-weight: 800; color: var(--card);
-    line-height: 1; margin-bottom: 16px;
-  }
-  .deliverables { list-style: none; padding: 0; margin-top: 24px; }
-  .deliverables li {
-    padding: 10px 0; border-bottom: 1px solid var(--border);
-    font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 12px;
-  }
-  .deliverables li::before { content: "—"; color: var(--accent); }
+/* JOURNEY STAGES */
+.stage{display:grid;grid-template-columns:80px 1fr;gap:32px;padding:40px 0;border-bottom:1px solid var(--border);align-items:start;}
+.stage .snum{font-size:clamp(2.5rem,4vw,3.5rem);font-weight:800;color:var(--bg-alt);line-height:1;}
+.stage h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:600;margin-bottom:8px;}
+.stage p{font-size:.95rem;color:var(--text-muted);line-height:1.7;max-width:560px;}
+@media(max-width:640px){.stage{grid-template-columns:50px 1fr;gap:16px;}}
 
-  /* ========== CASE STUDY DETAIL ========== */
-  .result-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 32px 0; }
-  .result-card {
-    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-    padding: 32px; text-align: center;
-  }
-  .result-card .result-num { font-size: 2.5rem; font-weight: 800; color: var(--accent); }
-  .result-card .result-label { font-size: 13px; color: var(--muted); margin-top: 8px; }
-  @media (max-width: 640px) { .result-cards { grid-template-columns: 1fr; } }
+/* DIFF CARDS */
+.diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:40px;}
+@media(max-width:768px){.diff-grid{grid-template-columns:1fr;}}
+.diff-card h3{font-size:1.25rem;font-weight:600;margin-bottom:12px;}
+.diff-card p{font-size:.9rem;color:var(--text-muted);line-height:1.6;}
 
-  /* ========== TESTIMONIAL ========== */
-  .testimonial {
-    border-left: 3px solid var(--accent); padding-left: 32px;
-    margin: 48px 0; max-width: 640px;
-  }
-  .testimonial .quote { font-size: 1.125rem; font-style: italic; color: var(--muted); line-height: 1.7; }
-  .testimonial .attribution { margin-top: 16px; font-size: 13px; color: var(--dim); }
+/* SERVICE DETAIL */
+.svc-section{padding:var(--section-py) var(--section-px);}
+.svc-section:nth-child(even){background:var(--bg-alt);}
+.svc-section .inner{max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);align-items:start;}
+@media(max-width:768px){.svc-section .inner{grid-template-columns:1fr;}}
+.svc-section .watermark{font-size:clamp(5rem,10vw,8rem);font-weight:800;color:var(--bg-alt);line-height:1;margin-bottom:-16px;user-select:none;}
+.svc-section:nth-child(even) .watermark{color:var(--border);}
+.deliverables{list-style:none;margin-top:20px;}
+.deliverables li{padding:8px 0;font-size:.9rem;color:var(--text-muted);display:flex;align-items:center;gap:12px;}
+.deliverables li::before{content:'';width:20px;height:1px;background:var(--accent);flex-shrink:0;}
+.text-link{color:var(--accent);font-size:.85rem;font-weight:500;letter-spacing:.03em;margin-top:20px;display:inline-block;position:relative;}
+.text-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent);transition:width .3s;}
+.text-link:hover::after{width:100%;}
 
-  /* ========== CONTACT FORM ========== */
-  .form-group { margin-bottom: 20px; }
-  .form-group label {
-    display: block; font-size: 12px; text-transform: uppercase;
-    letter-spacing: 0.1em; color: var(--muted); margin-bottom: 8px;
-  }
-  .form-group input, .form-group select, .form-group textarea {
-    width: 100%; padding: 14px 16px; background: var(--card);
-    border: 1px solid var(--border); border-radius: 6px;
-    color: var(--text); font-size: 14px; font-family: inherit;
-    transition: border-color 0.3s;
-  }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    outline: none; border-color: var(--accent);
-  }
-  .form-group textarea { min-height: 120px; resize: vertical; }
+/* RESULTS */
+.results-row{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin:40px 0;}
+@media(max-width:640px){.results-row{grid-template-columns:1fr;gap:24px;}}
+.result .rval{font-size:clamp(2.5rem,5vw,4rem);font-weight:800;color:var(--accent);letter-spacing:-.03em;margin-bottom:8px;}
+.result .rdesc{font-size:.9rem;color:var(--text-muted);}
 
-  /* ========== FAQ ========== */
-  .faq-item {
-    border-bottom: 1px solid var(--border); padding: 20px 0;
-  }
-  .faq-q {
-    font-size: 1rem; font-weight: 500; cursor: pointer;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .faq-q::after { content: "+"; color: var(--accent); font-size: 1.25rem; }
-  .faq-a { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-top: 12px; display: none; }
-  .faq-item.open .faq-a { display: block; }
-  .faq-item.open .faq-q::after { content: "−"; }
+/* TESTIMONIAL */
+.testimonial{border-left:2px solid var(--accent);padding-left:32px;margin:48px 0;max-width:560px;}
+.testimonial .quote{font-size:1.1rem;font-style:italic;color:var(--text-muted);line-height:1.7;}
+.testimonial .attr{margin-top:12px;font-size:.8rem;color:var(--text-light);}
 
-  /* ========== CTA SECTION ========== */
-  .cta-section {
-    text-align: center; padding: 120px 48px;
-    background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%);
-    border-top: 1px solid var(--border);
-  }
-  .cta-section .heading-lg { max-width: 700px; margin: 0 auto 16px; }
-  .cta-section .subtitle { max-width: 500px; margin: 0 auto 32px; text-align: center; }
+/* FORM */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+@media(max-width:768px){.form-grid{grid-template-columns:1fr;}}
+.form-group{margin-bottom:20px;}
+.form-group label{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:8px;font-weight:500;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.9rem;font-family:inherit;transition:border-color .3s;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--accent);}
+.form-group textarea{min-height:120px;resize:vertical;}
 
-  /* ========== POPUP ========== */
-  .popup-overlay {
-    display: none; position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
-    align-items: center; justify-content: center;
-  }
-  .popup-overlay.show { display: flex; }
-  .popup-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 16px; padding: 48px; max-width: 480px; width: 90%;
-    position: relative; text-align: center;
-  }
-  .popup-close {
-    position: absolute; top: 16px; right: 16px; background: none;
-    border: none; color: var(--muted); font-size: 24px; cursor: pointer;
-    width: 32px; height: 32px; display: flex; align-items: center;
-    justify-content: center; transition: color 0.3s;
-  }
-  .popup-close:hover { color: var(--text); }
-  .popup-card .label { text-align: center; }
-  .popup-card .heading-md { text-align: center; }
-  .popup-card .subtitle { text-align: center; margin: 0 auto 24px; }
-  .popup-email-row { display: flex; gap: 12px; margin-top: 24px; }
-  .popup-email-row input { flex: 1; }
-  @media (max-width: 640px) {
-    .popup-card { border-radius: 16px 16px 0 0; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-width: 100%; }
-    .popup-email-row { flex-direction: column; }
-  }
+/* FAQ */
+.faq-item{border-bottom:1px solid var(--border);padding:24px 0;}
+.faq-q{font-size:1rem;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:color .3s;}
+.faq-q:hover{color:var(--accent);}
+.faq-q::after{content:'+';font-size:1.25rem;color:var(--accent);transition:transform .3s;}
+.faq-item.open .faq-q::after{content:'−';}
+.faq-a{font-size:.9rem;color:var(--text-muted);line-height:1.7;margin-top:12px;display:none;max-width:560px;}
+.faq-item.open .faq-a{display:block;}
 
-  /* ========== FOOTER ========== */
-  .footer {
-    background: var(--surface); border-top: 1px solid var(--border);
-    padding: 64px 48px 32px; margin-bottom: 68px;
-  }
-  .footer .inner { max-width: 1280px; margin: 0 auto; }
-  .footer .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
-  .footer .footer-brand .logo { font-size: 14px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; }
-  .footer .footer-brand .logo span { color: var(--accent); }
-  .footer .footer-brand .tagline { font-size: 13px; color: var(--muted); line-height: 1.6; }
-  .footer .footer-col h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 16px; }
-  .footer .footer-col a { display: block; color: var(--muted); text-decoration: none; font-size: 13px; padding: 4px 0; transition: color 0.3s; }
-  .footer .footer-col a:hover { color: var(--text); }
-  .footer .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: var(--dim); }
-  @media (max-width: 768px) {
-    .footer { padding: 48px 20px 24px; }
-    .footer .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-  }
-  @media (max-width: 480px) {
-    .footer .footer-grid { grid-template-columns: 1fr; }
-  }
+/* CONTACT INFO */
+.contact-info h4{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:12px;font-weight:500;}
+.contact-info p,.contact-info a{font-size:.9rem;color:var(--text-muted);line-height:1.8;}
+.contact-info a:hover{color:var(--accent);}
 
-  /* ========== HERO ========== */
-  .hero {
-    min-height: 85vh; display: flex; flex-direction: column;
-    justify-content: center; padding: 120px 48px 80px;
-    max-width: 1280px; margin: 0 auto;
-  }
-  .hero .subtitle { margin-bottom: 0; }
-  @media (max-width: 768px) { .hero { padding: 80px 20px 48px; min-height: 70vh; } }
-
-  .scroll-indicator {
-    text-align: center; padding-bottom: 32px; color: var(--dim);
-    font-size: 12px; letter-spacing: 0.1em; animation: pulse 2s infinite;
-  }
-  @keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
-
-  /* ========== WIREFRAME NOTE ========== */
-  .wireframe-banner {
-    background: var(--accent); color: var(--bg); text-align: center;
-    padding: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
-    text-transform: uppercase; position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-  }
-  .top-nav { top: 28px; }
-  .page-tabs { top: 93px; }
-  .page { padding-top: 148px; }
-  .hero { padding-top: 40px; }
-
-  /* ========== POPUP TRIGGER ========== */
-  .popup-trigger {
-    position: fixed; bottom: 80px; right: 20px; z-index: 90;
-    background: var(--accent); color: var(--bg); border: none;
-    padding: 10px 16px; border-radius: 8px; font-size: 11px;
-    font-weight: 600; letter-spacing: 0.05em; cursor: pointer;
-    font-family: inherit; box-shadow: 0 4px 20px rgba(200,169,125,0.3);
-  }
-
-  /* ========== JOURNEY TIMELINE ========== */
-  .timeline { position: relative; padding-left: 32px; }
-  .timeline::before {
-    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
-    width: 2px; background: var(--border);
-  }
-  .timeline-item { position: relative; padding-bottom: 48px; }
-  .timeline-item::before {
-    content: ""; position: absolute; left: -37px; top: 6px;
-    width: 12px; height: 12px; border-radius: 50%;
-    background: var(--accent); border: 2px solid var(--bg);
-  }
-  .timeline-item .heading-md { margin-bottom: 8px; }
-  .timeline-item .subtitle { margin-bottom: 0; }
+/* POPUP */
+.popup-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;}
+.popup-overlay.show{display:flex;}
+.popup-card{background:#fff;border-radius:8px;padding:48px;max-width:480px;width:90%;position:relative;text-align:center;}
+.popup-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:24px;cursor:pointer;color:var(--text-muted);transition:color .3s;}
+.popup-close:hover{color:var(--text);}
+@media(max-width:640px){.popup-card{position:fixed;bottom:0;left:0;right:0;width:100%;max-width:100%;border-radius:12px 12px 0 0;padding:36px 24px;}}
 </style>
 </head>
 <body>
 
-<!-- WIREFRAME BANNER -->
-<div class="wireframe-banner">Wireframe Preview — All Content Is Holding Copy</div>
-
-<!-- TOP NAVIGATION -->
-<nav class="top-nav">
+<!-- TOP BAR -->
+<header class="topbar" id="topbar">
   <div class="logo">RETURN TICKET <span>.</span> MEDIA</div>
-  <div class="nav-links">
-    <a href="#" class="active" onclick="showPage('home')">Home</a>
-    <a href="#" onclick="showPage('about')">About</a>
-    <a href="#" onclick="showPage('services')">Services</a>
-    <a href="#" onclick="showPage('case-studies')">Case Studies</a>
-    <a href="#" onclick="showPage('contact')">Contact</a>
-  </div>
-</nav>
+  <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</header>
 
-<!-- PAGE TABS (for wireframe navigation) -->
-<div class="page-tabs" id="pageTabs">
-  <button class="active" onclick="showPage('home')">Homepage</button>
-  <button onclick="showPage('about')">About</button>
-  <button onclick="showPage('services')">Services</button>
-  <button onclick="showPage('case-studies')">Case Studies</button>
-  <button onclick="showPage('case-study-detail')">Case Study Detail</button>
-  <button onclick="showPage('contact')">Contact</button>
+<!-- FULL SCREEN MENU -->
+<div class="menu-overlay" id="menu">
+  <button class="menu-close" onclick="toggleMenu()">&times;</button>
+  <nav>
+    <a onclick="go('home')">Home</a>
+    <a onclick="go('about')">About</a>
+    <a onclick="go('services')">Services</a>
+    <a onclick="go('cases')">Case Studies</a>
+    <a onclick="go('contact')">Contact</a>
+  </nav>
+  <button class="menu-cta" onclick="openPopup()">Book a Call</button>
+  <div class="menu-socials"><a>LinkedIn</a><a>Instagram</a><a>TikTok</a></div>
 </div>
 
-<!-- ============================================================ -->
-<!-- HOMEPAGE -->
-<!-- ============================================================ -->
+<!-- ==================== HOMEPAGE ==================== -->
 <div class="page active" id="page-home">
-
-  <!-- Hero -->
-  <div class="hero">
-    <div class="label">Influencer Marketing Agency</div>
-    <h1 class="heading-xl">Holding Headline<br>Goes Here.</h1>
-    <p class="subtitle">Holding subtitle text — one or two sentences describing the agency's value proposition. This will be replaced with approved copy.</p>
-    <div class="btn-group">
-      <a class="btn btn-gold">Book a Strategy Call</a>
-      <a class="btn btn-outline">See Our Work</a>
+  <section class="hero">
+    <span class="hero-label">AI-Integrated Influencer Marketing</span>
+    <h1 class="hero-heading">We Don't Just Understand <span class="hi">Influence.</span> We've Lived It.</h1>
+    <p class="hero-sub">The B2B influencer marketing agency for AI SaaS companies. Founded by the #1 British creator in China. 10 million followers. Now building the strategies behind the next generation of brand-creator partnerships.</p>
+    <div class="btn-row">
+      <button class="btn btn-accent" onclick="openPopup()">Book a Strategy Call</button>
+      <button class="btn btn-outline" onclick="go('cases')">See Our Work</button>
     </div>
-  </div>
-  <div class="scroll-indicator">↓ SCROLL</div>
+  </section>
 
-  <!-- Stats Bar -->
-  <div class="section-full">
-    <div class="stats-bar">
-      <div class="stat"><div class="num">10M+</div><div class="stat-label">Stat Label</div></div>
-      <div class="stat"><div class="num">500+</div><div class="stat-label">Stat Label</div></div>
-      <div class="stat"><div class="num">5+</div><div class="stat-label">Stat Label</div></div>
-      <div class="stat"><div class="num">3</div><div class="stat-label">Stat Label</div></div>
-    </div>
+  <div class="metrics">
+    <div class="metric"><div class="num">10M+</div><div class="meta">Followers Built</div></div>
+    <div class="metric"><div class="num">500+</div><div class="meta">Creators Partnered</div></div>
+    <div class="metric"><div class="num">5+</div><div class="meta">Years in Creator Economy</div></div>
+    <div class="metric"><div class="num">3</div><div class="meta">Global Markets</div></div>
   </div>
 
-  <!-- Services Overview -->
-  <div class="section">
-    <div class="label">Services</div>
-    <h2 class="heading-lg">Section Heading</h2>
-    <p class="subtitle" style="margin-bottom:48px;">Holding subtitle about services.</p>
-    <div class="grid-5">
-      <div class="card">
-        <div class="card-label">01</div>
-        <div class="card-title">Influencer Marketing</div>
-        <div class="card-desc">Holding description text for this service offering.</div>
-        <a class="card-link">Learn more →</a>
-      </div>
-      <div class="card">
-        <div class="card-label">02</div>
-        <div class="card-title">Influencer Strategy</div>
-        <div class="card-desc">Holding description text for this service offering.</div>
-        <a class="card-link">Learn more →</a>
-      </div>
-      <div class="card">
-        <div class="card-label">03</div>
-        <div class="card-title">Nano-Creator Head-Hunting</div>
-        <div class="card-desc">Holding description text for this service offering.</div>
-        <a class="card-link">Learn more →</a>
-      </div>
-      <div class="card">
-        <div class="card-label">04</div>
-        <div class="card-title">Creator Brand Building</div>
-        <div class="card-desc">Holding description text for this service offering.</div>
-        <a class="card-link">Learn more →</a>
-      </div>
-      <div class="card">
-        <div class="card-label">05</div>
-        <div class="card-title">Influencer Consulting</div>
-        <div class="card-desc">Holding description text for this service offering.</div>
-        <a class="card-link">Learn more →</a>
-      </div>
+  <section class="section">
+    <span class="label">Services</span>
+    <h2 class="heading">What We Do</h2>
+    <div style="margin-top:32px;">
+      <div class="service-row" onclick="go('services')"><div class="snum">01</div><div><h3>Influencer Marketing</h3><p>End-to-end campaign management from creator selection to performance reporting.</p></div></div>
+      <div class="service-row" onclick="go('services')"><div class="snum">02</div><div><h3>Influencer Strategy</h3><p>Strategic planning for brands entering or scaling their influencer presence.</p></div></div>
+      <div class="service-row" onclick="go('services')"><div class="snum">03</div><div><h3>Nano-Creator Head-Hunting</h3><p>Finding the needle-in-a-haystack creators who deliver authentic engagement.</p></div></div>
+      <div class="service-row" onclick="go('services')"><div class="snum">04</div><div><h3>Creator Brand Building</h3><p>Helping creators build sustainable personal brands and monetise their influence.</p></div></div>
+      <div class="service-row" onclick="go('services')"><div class="snum">05</div><div><h3>Influencer Consulting</h3><p>Advisory for brands and creators navigating the influence economy.</p></div></div>
     </div>
-  </div>
+  </section>
 
-  <!-- Founder Preview -->
-  <div class="section">
-    <div class="grid-asym">
+  <section class="section">
+    <div class="asym">
       <div>
-        <div class="label">About the Founder</div>
-        <h2 class="heading-lg">Holding Founder Headline</h2>
-        <p class="subtitle" style="margin-bottom:16px;">Holding paragraph about the founder's journey and background. This will be replaced with approved copy about Alfie Richards.</p>
-        <p class="subtitle" style="margin-bottom:24px;">Second holding paragraph with more founder details.</p>
-        <a class="card-link">Read the Full Story →</a>
+        <span class="label">About the Founder</span>
+        <h2 class="heading">From 10 Million Followers to the Boardroom</h2>
+        <p class="sub" style="margin-bottom:24px;">He's been the creator, the strategist, and the brand partner — giving him a 360° view that most agencies lack.</p>
+        <a class="text-link" onclick="go('about')">Read the Full Story →</a>
       </div>
-      <div class="placeholder-box tall">Decorative Element / Image Area</div>
+      <div class="deco"></div>
     </div>
-  </div>
+  </section>
 
-  <!-- Featured Case Studies -->
-  <div class="section-full">
+  <div class="section-alt">
     <div class="inner">
-      <div class="label">Selected Work</div>
-      <h2 class="heading-lg">Section Heading</h2>
-      <div class="grid-3" style="margin-top:40px;">
-        <div class="card">
-          <div class="card-label">Category</div>
-          <div class="card-title">Case Study Title</div>
-          <div class="card-desc">Key result metric — holding copy</div>
-          <a class="card-link">Read Case Study →</a>
-        </div>
-        <div class="card">
-          <div class="card-label">Category</div>
-          <div class="card-title">Case Study Title</div>
-          <div class="card-desc">Key result metric — holding copy</div>
-          <a class="card-link">Read Case Study →</a>
-        </div>
-        <div class="card">
-          <div class="card-label">Category</div>
-          <div class="card-title">Case Study Title</div>
-          <div class="card-desc">Key result metric — holding copy</div>
-          <a class="card-link">Read Case Study →</a>
-        </div>
+      <span class="label">Selected Work</span>
+      <h2 class="heading">Client Stories</h2>
+      <div class="case-grid">
+        <div class="case-card" onclick="go('case-detail')"><div class="cat">Nano-Creator Head-Hunting</div><h3>Scaling a Fashion Brand Through Nano-Creators</h3><div class="big-num">340%</div><span class="link">Read Case Study →</span></div>
+        <div class="case-card" onclick="go('case-detail')"><div class="cat">Influencer Strategy</div><h3>Launching a Tech Product Through Strategic Influence</h3><div class="big-num">12x</div><span class="link">Read Case Study →</span></div>
+        <div class="case-card" onclick="go('case-detail')"><div class="cat">Creator Brand Building</div><h3>From Zero to 100K: Building a Creator's Brand</h3><div class="big-num">100K</div><span class="link">Read Case Study →</span></div>
       </div>
     </div>
   </div>
 
-  <!-- CTA -->
-  <div class="cta-section">
-    <div class="heading-lg">Holding CTA Headline</div>
-    <p class="subtitle">Holding subtitle for the call-to-action section.</p>
-    <a class="btn btn-gold">Book a Strategy Call</a>
+  <div class="section-dark">
+    <div class="inner cta-banner">
+      <h2 class="heading">What can we do for you?</h2>
+      <p class="sub">Whether you're an AI SaaS company looking for creator partnerships or a creator looking to grow, we'd love to hear from you.</p>
+      <button class="btn btn-accent" onclick="openPopup()">Book a Strategy Call</button>
+    </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="inner">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo">RETURN TICKET <span>.</span> MEDIA</div>
-          <p class="tagline">Holding tagline — one line about the agency.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Pages</h4>
-          <a href="#">Home</a><a href="#">About</a><a href="#">Services</a>
-          <a href="#">Case Studies</a><a href="#">Contact</a>
-        </div>
-        <div class="footer-col">
-          <h4>Services</h4>
-          <a href="#">Influencer Marketing</a><a href="#">Influencer Strategy</a>
-          <a href="#">Nano-Creator Head-Hunting</a><a href="#">Creator Brand Building</a>
-          <a href="#">Influencer Consulting</a>
-        </div>
-        <div class="footer-col">
-          <h4>Connect</h4>
-          <a href="#">hello@returnticketmedia.com</a>
-          <a href="#">LinkedIn</a><a href="#">Instagram</a><a href="#">TikTok</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>&copy; 2026 Return Ticket Media. All rights reserved.</span>
-        <span>London, UK</span>
-      </div>
+  <footer class="footer"><div class="inner">
+    <div class="footer-grid">
+      <div class="brand-col"><div class="logo">RETURN TICKET <span>.</span> MEDIA</div><p>AI-integrated B2B influencer marketing agency for AI SaaS companies.</p></div>
+      <div><h4>Pages</h4><a onclick="go('home')">Home</a><a onclick="go('about')">About</a><a onclick="go('services')">Services</a><a onclick="go('cases')">Case Studies</a><a onclick="go('contact')">Contact</a></div>
+      <div><h4>Services</h4><a onclick="go('services')">Influencer Marketing</a><a onclick="go('services')">Influencer Strategy</a><a onclick="go('services')">Nano-Creator Head-Hunting</a><a onclick="go('services')">Creator Brand Building</a><a onclick="go('services')">Influencer Consulting</a></div>
+      <div><h4>Connect</h4><a>hello@returnticketmedia.com</a><a>LinkedIn</a><a>Instagram</a><a>TikTok</a></div>
     </div>
-  </footer>
+    <div class="footer-bottom"><span>© 2026 Return Ticket Media</span><span>London, UK</span></div>
+  </div></footer>
 </div>
 
-<!-- ============================================================ -->
-<!-- ABOUT PAGE -->
-<!-- ============================================================ -->
+<!-- ==================== ABOUT ==================== -->
 <div class="page" id="page-about">
-  <div class="hero">
-    <div class="label">About</div>
-    <h1 class="heading-xl">Holding About<br>Page Headline.</h1>
-    <p class="subtitle">Holding subtitle about the founder's journey and the story behind Return Ticket Media.</p>
-  </div>
+  <section class="hero">
+    <span class="hero-label">About</span>
+    <h1 class="hero-heading">The Story Behind Return Ticket <span class="hi">Media.</span></h1>
+    <p class="hero-sub">From building a 10 million-strong audience in China to founding a B2B influencer agency for AI SaaS — this is the journey that shaped everything.</p>
+  </section>
 
-  <!-- The Journey Timeline -->
-  <div class="section">
-    <div class="label">The Journey</div>
-    <h2 class="heading-lg" style="margin-bottom:48px;">Holding Section Heading</h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="heading-md">The Beginning</div>
-        <p class="subtitle">Holding copy about how the journey began. Details to be provided.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="heading-md">The Rise</div>
-        <p class="subtitle">Holding copy about building a following and early successes.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="heading-md">The Challenge</div>
-        <p class="subtitle">Holding copy about the challenges faced and lessons learned.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="heading-md">The Rebuild</div>
-        <p class="subtitle">Holding copy about the rebuilding journey and founding RTM.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="heading-md">The Inside Track</div>
-        <p class="subtitle">Holding copy about industry expertise and unique positioning.</p>
-      </div>
-    </div>
-  </div>
+  <section class="section">
+    <span class="label">The Journey</span>
+    <h2 class="heading" style="margin-bottom:48px;">How We Got Here</h2>
+    <div class="stage"><div class="snum">01</div><div><h3>The Beginning</h3><p>How Alfie moved to China, started creating content, and discovered the power of social influence first-hand.</p></div></div>
+    <div class="stage"><div class="snum">02</div><div><h3>The Rise</h3><p>Building to 10M followers as Alfie(de)Angel — becoming the biggest British creator in China, learning what makes content go viral across cultures.</p></div></div>
+    <div class="stage"><div class="snum">03</div><div><h3>The Challenge</h3><p>The 2024 online backlash. The real emotional and professional cost of losing everything overnight — and what it taught about resilience.</p></div></div>
+    <div class="stage"><div class="snum">04</div><div><h3>The Rebuild</h3><p>Coming back stronger, channelling all that experience into helping brands and creators navigate influence with strategy and authenticity.</p></div></div>
+    <div class="stage"><div class="snum">05</div><div><h3>The Inside Track</h3><p>Time at TikTok, building NUSA STUDIOS, working with 500+ creators — he's seen the industry from every angle.</p></div></div>
+  </section>
 
-  <!-- Why RTM is Different -->
-  <div class="section-full">
+  <div class="section-alt">
     <div class="inner">
-      <div class="label">Why Us</div>
-      <h2 class="heading-lg" style="margin-bottom:40px;">Holding Section Heading</h2>
-      <div class="grid-3">
-        <div class="card">
-          <div class="card-label">Differentiator 01</div>
-          <div class="card-title">Holding Card Title</div>
-          <div class="card-desc">Holding description about this differentiator.</div>
-        </div>
-        <div class="card">
-          <div class="card-label">Differentiator 02</div>
-          <div class="card-title">Holding Card Title</div>
-          <div class="card-desc">Holding description about this differentiator.</div>
-        </div>
-        <div class="card">
-          <div class="card-label">Differentiator 03</div>
-          <div class="card-title">Holding Card Title</div>
-          <div class="card-desc">Holding description about this differentiator.</div>
-        </div>
+      <span class="label">Why Us</span>
+      <h2 class="heading">What Makes RTM Different</h2>
+      <div class="diff-grid">
+        <div class="diff-card"><h3>Creator-First Perspective</h3><p>We've been the creator — first-hand experience building and losing audiences at scale.</p></div>
+        <div class="diff-card"><h3>Platform Insiders</h3><p>Former TikTok experience gives us insider knowledge of how platforms actually work.</p></div>
+        <div class="diff-card"><h3>Full-Stack Agency</h3><p>NUSA STUDIOS + RTM = production and strategy under one roof.</p></div>
       </div>
     </div>
   </div>
 
-  <!-- Values -->
-  <div class="section">
-    <div class="label">Our Values</div>
-    <h2 class="heading-lg" style="margin-bottom:40px;">Holding Section Heading</h2>
-    <div class="grid-3">
-      <div class="card" style="text-align:center;">
-        <div class="card-title">Value One</div>
-        <div class="card-desc">Holding value description.</div>
-      </div>
-      <div class="card" style="text-align:center;">
-        <div class="card-title">Value Two</div>
-        <div class="card-desc">Holding value description.</div>
-      </div>
-      <div class="card" style="text-align:center;">
-        <div class="card-title">Value Three</div>
-        <div class="card-desc">Holding value description.</div>
-      </div>
+  <div class="section-dark">
+    <div class="inner cta-banner">
+      <h2 class="heading">Work with someone who's been in the trenches.</h2>
+      <button class="btn btn-accent" onclick="openPopup()">Book a Strategy Call</button>
     </div>
   </div>
 
-  <!-- CTA -->
-  <div class="cta-section">
-    <div class="heading-lg">Holding CTA Headline</div>
-    <p class="subtitle">Holding subtitle text.</p>
-    <a class="btn btn-gold">Book a Strategy Call</a>
-  </div>
-
-  <footer class="footer"><div class="inner"><div class="footer-bottom"><span>&copy; 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
+  <footer class="footer"><div class="inner"><div class="footer-grid"><div class="brand-col"><div class="logo">RETURN TICKET <span>.</span> MEDIA</div><p>AI-integrated B2B influencer marketing agency for AI SaaS companies.</p></div><div><h4>Pages</h4><a onclick="go('home')">Home</a><a onclick="go('about')">About</a><a onclick="go('services')">Services</a><a onclick="go('cases')">Case Studies</a><a onclick="go('contact')">Contact</a></div><div><h4>Services</h4><a onclick="go('services')">Influencer Marketing</a><a onclick="go('services')">Influencer Strategy</a><a onclick="go('services')">Nano-Creator Head-Hunting</a><a onclick="go('services')">Creator Brand Building</a><a onclick="go('services')">Influencer Consulting</a></div><div><h4>Connect</h4><a>hello@returnticketmedia.com</a><a>LinkedIn</a><a>Instagram</a><a>TikTok</a></div></div><div class="footer-bottom"><span>© 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
 </div>
 
-<!-- ============================================================ -->
-<!-- SERVICES PAGE -->
-<!-- ============================================================ -->
+<!-- ==================== SERVICES ==================== -->
 <div class="page" id="page-services">
-  <div class="hero">
-    <div class="label">Services</div>
-    <h1 class="heading-xl">Holding Services<br>Headline.</h1>
-    <p class="subtitle">Holding subtitle about the agency's service offerings.</p>
-  </div>
+  <section class="hero">
+    <span class="hero-label">Services</span>
+    <h1 class="hero-heading">What We <span class="hi">Do.</span></h1>
+    <p class="hero-sub">Five core services designed to help AI SaaS companies leverage creator partnerships for measurable growth.</p>
+  </section>
 
-  <div class="section">
-    <!-- Service 1 -->
-    <div class="service-block">
-      <div class="grid-asym">
-        <div>
-          <div class="service-num">01</div>
-          <h3 class="heading-lg">Influencer Marketing</h3>
-          <p class="subtitle">Holding description for this service.</p>
-          <ul class="deliverables">
-            <li>Deliverable one — holding</li>
-            <li>Deliverable two — holding</li>
-            <li>Deliverable three — holding</li>
-            <li>Deliverable four — holding</li>
-            <li>Deliverable five — holding</li>
-          </ul>
-          <div style="margin-top:32px;"><a class="btn btn-outline">Get Started →</a></div>
-        </div>
-        <div class="placeholder-box tall">Visual / Icon Area</div>
-      </div>
-    </div>
+  <div class="svc-section"><div class="inner"><div><div class="watermark">01</div><h2 class="heading">Influencer Marketing</h2><p class="sub">End-to-end campaign management from creator selection to performance reporting.</p><ul class="deliverables"><li>Creator identification & vetting</li><li>Campaign brief development</li><li>Content review & approval</li><li>Performance tracking & optimisation</li><li>Post-campaign reporting & insights</li></ul><a class="text-link" onclick="go('contact')">Get Started →</a></div><div></div></div></div>
+  <div class="svc-section"><div class="inner"><div></div><div><div class="watermark">02</div><h2 class="heading">Influencer Strategy</h2><p class="sub">Strategic planning for brands entering or scaling their influencer presence.</p><ul class="deliverables"><li>Audience & competitor analysis</li><li>Platform strategy (TikTok, Instagram, YouTube)</li><li>Budget allocation & forecasting</li><li>KPI framework development</li><li>Influencer mix strategy (nano to macro)</li></ul><a class="text-link" onclick="go('contact')">Get Started →</a></div></div></div>
+  <div class="svc-section"><div class="inner"><div><div class="watermark">03</div><h2 class="heading">Nano-Creator Head-Hunting</h2><p class="sub">Finding the needle-in-a-haystack creators who deliver authentic engagement.</p><ul class="deliverables"><li>Custom creator scouting</li><li>Audience authenticity verification</li><li>Engagement rate analysis</li><li>Brand-fit scoring</li><li>Ongoing relationship management</li></ul><a class="text-link" onclick="go('contact')">Get Started →</a></div><div></div></div></div>
+  <div class="svc-section"><div class="inner"><div></div><div><div class="watermark">04</div><h2 class="heading">Creator Brand Building</h2><p class="sub">Helping creators build sustainable personal brands and monetise their influence.</p><ul class="deliverables"><li>Personal brand strategy</li><li>Content pillar development</li><li>Audience growth roadmap</li><li>Monetisation strategy</li><li>Brand partnership preparation</li></ul><a class="text-link" onclick="go('contact')">Get Started →</a></div></div></div>
+  <div class="svc-section"><div class="inner"><div><div class="watermark">05</div><h2 class="heading">Influencer Consulting</h2><p class="sub">Advisory for brands and creators navigating the influence economy.</p><ul class="deliverables"><li>Market landscape briefings</li><li>Trend & platform analysis</li><li>Crisis management guidance</li><li>Creator economy education</li><li>Bespoke advisory retainers</li></ul><a class="text-link" onclick="go('contact')">Get Started →</a></div><div></div></div></div>
 
-    <!-- Service 2 -->
-    <div class="service-block">
-      <div class="grid-asym" style="direction:rtl;">
-        <div style="direction:ltr;">
-          <div class="service-num">02</div>
-          <h3 class="heading-lg">Influencer Strategy</h3>
-          <p class="subtitle">Holding description for this service.</p>
-          <ul class="deliverables">
-            <li>Deliverable one — holding</li>
-            <li>Deliverable two — holding</li>
-            <li>Deliverable three — holding</li>
-            <li>Deliverable four — holding</li>
-            <li>Deliverable five — holding</li>
-          </ul>
-          <div style="margin-top:32px;"><a class="btn btn-outline">Get Started →</a></div>
-        </div>
-        <div class="placeholder-box tall" style="direction:ltr;">Visual / Icon Area</div>
-      </div>
-    </div>
-
-    <!-- Service 3 -->
-    <div class="service-block">
-      <div class="grid-asym">
-        <div>
-          <div class="service-num">03</div>
-          <h3 class="heading-lg">Nano-Creator Head-Hunting</h3>
-          <p class="subtitle">Holding description for this service.</p>
-          <ul class="deliverables">
-            <li>Deliverable one — holding</li>
-            <li>Deliverable two — holding</li>
-            <li>Deliverable three — holding</li>
-            <li>Deliverable four — holding</li>
-            <li>Deliverable five — holding</li>
-          </ul>
-          <div style="margin-top:32px;"><a class="btn btn-outline">Get Started →</a></div>
-        </div>
-        <div class="placeholder-box tall">Visual / Icon Area</div>
-      </div>
-    </div>
-
-    <!-- Service 4 -->
-    <div class="service-block">
-      <div class="grid-asym" style="direction:rtl;">
-        <div style="direction:ltr;">
-          <div class="service-num">04</div>
-          <h3 class="heading-lg">Creator Brand Building</h3>
-          <p class="subtitle">Holding description for this service.</p>
-          <ul class="deliverables">
-            <li>Deliverable one — holding</li>
-            <li>Deliverable two — holding</li>
-            <li>Deliverable three — holding</li>
-            <li>Deliverable four — holding</li>
-            <li>Deliverable five — holding</li>
-          </ul>
-          <div style="margin-top:32px;"><a class="btn btn-outline">Get Started →</a></div>
-        </div>
-        <div class="placeholder-box tall" style="direction:ltr;">Visual / Icon Area</div>
-      </div>
-    </div>
-
-    <!-- Service 5 -->
-    <div class="service-block">
-      <div class="grid-asym">
-        <div>
-          <div class="service-num">05</div>
-          <h3 class="heading-lg">Influencer Consulting</h3>
-          <p class="subtitle">Holding description for this service.</p>
-          <ul class="deliverables">
-            <li>Deliverable one — holding</li>
-            <li>Deliverable two — holding</li>
-            <li>Deliverable three — holding</li>
-            <li>Deliverable four — holding</li>
-            <li>Deliverable five — holding</li>
-          </ul>
-          <div style="margin-top:32px;"><a class="btn btn-outline">Get Started →</a></div>
-        </div>
-        <div class="placeholder-box tall">Visual / Icon Area</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CTA -->
-  <div class="cta-section">
-    <div class="heading-lg">Holding CTA Headline</div>
-    <p class="subtitle">Holding subtitle text.</p>
-    <a class="btn btn-gold">Book a Strategy Call</a>
-  </div>
-
-  <footer class="footer"><div class="inner"><div class="footer-bottom"><span>&copy; 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
+  <div class="section-dark"><div class="inner cta-banner"><h2 class="heading">Ready to scale your influence?</h2><button class="btn btn-accent" onclick="openPopup()">Book a Strategy Call</button></div></div>
+  <footer class="footer"><div class="inner"><div class="footer-grid"><div class="brand-col"><div class="logo">RETURN TICKET <span>.</span> MEDIA</div><p>AI-integrated B2B influencer marketing agency for AI SaaS companies.</p></div><div><h4>Pages</h4><a onclick="go('home')">Home</a><a onclick="go('about')">About</a><a onclick="go('services')">Services</a><a onclick="go('cases')">Case Studies</a><a onclick="go('contact')">Contact</a></div><div><h4>Services</h4><a onclick="go('services')">Influencer Marketing</a><a onclick="go('services')">Influencer Strategy</a><a onclick="go('services')">Nano-Creator Head-Hunting</a><a onclick="go('services')">Creator Brand Building</a><a onclick="go('services')">Influencer Consulting</a></div><div><h4>Connect</h4><a>hello@returnticketmedia.com</a><a>LinkedIn</a><a>Instagram</a><a>TikTok</a></div></div><div class="footer-bottom"><span>© 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
 </div>
 
-<!-- ============================================================ -->
-<!-- CASE STUDIES LISTING -->
-<!-- ============================================================ -->
-<div class="page" id="page-case-studies">
-  <div class="hero">
-    <div class="label">Our Work</div>
-    <h1 class="heading-xl">Holding Case<br>Studies Headline.</h1>
-    <p class="subtitle">Holding subtitle about the agency's work and results.</p>
-  </div>
+<!-- ==================== CASE STUDIES ==================== -->
+<div class="page" id="page-cases">
+  <section class="hero">
+    <span class="hero-label">Work</span>
+    <h1 class="hero-heading">Selected <span class="hi">Work.</span></h1>
+    <p class="hero-sub">Real results from real campaigns. All case study content below is holding copy and subject to client approval.</p>
+  </section>
 
-  <div class="section">
-    <div class="grid-2" style="gap:32px;">
-      <div class="card" style="padding:0; overflow:hidden;">
-        <div class="placeholder-box" style="min-height:200px; border-radius:12px 12px 0 0; border:none;">Featured Image Area</div>
-        <div style="padding:32px;">
-          <div class="card-label">Category — holding</div>
-          <div class="card-title">Case Study Title — Holding</div>
-          <div class="card-desc">Key result: XX% improvement — holding copy</div>
-          <a class="card-link">Read Case Study →</a>
-        </div>
-      </div>
-      <div class="card" style="padding:0; overflow:hidden;">
-        <div class="placeholder-box" style="min-height:200px; border-radius:12px 12px 0 0; border:none;">Featured Image Area</div>
-        <div style="padding:32px;">
-          <div class="card-label">Category — holding</div>
-          <div class="card-title">Case Study Title — Holding</div>
-          <div class="card-desc">Key result: XX% improvement — holding copy</div>
-          <a class="card-link">Read Case Study →</a>
-        </div>
-      </div>
-      <div class="card" style="padding:0; overflow:hidden;">
-        <div class="placeholder-box" style="min-height:200px; border-radius:12px 12px 0 0; border:none;">Featured Image Area</div>
-        <div style="padding:32px;">
-          <div class="card-label">Category — holding</div>
-          <div class="card-title">Case Study Title — Holding</div>
-          <div class="card-desc">Key result: XX% improvement — holding copy</div>
-          <a class="card-link">Read Case Study →</a>
-        </div>
-      </div>
+  <section class="section">
+    <div class="case-grid">
+      <div class="case-card" onclick="go('case-detail')"><div class="cat">Nano-Creator Head-Hunting</div><h3>Scaling a Fashion Brand Through Nano-Creators</h3><div class="big-num">340%</div><span class="link">Read Case Study →</span></div>
+      <div class="case-card" onclick="go('case-detail')"><div class="cat">Influencer Strategy</div><h3>Launching a Tech Product Through Strategic Influence</h3><div class="big-num">12x</div><span class="link">Read Case Study →</span></div>
+      <div class="case-card" onclick="go('case-detail')"><div class="cat">Creator Brand Building</div><h3>From Zero to 100K: Building a Creator's Brand</h3><div class="big-num">100K</div><span class="link">Read Case Study →</span></div>
     </div>
-  </div>
+  </section>
 
-  <footer class="footer"><div class="inner"><div class="footer-bottom"><span>&copy; 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
+  <footer class="footer"><div class="inner"><div class="footer-grid"><div class="brand-col"><div class="logo">RETURN TICKET <span>.</span> MEDIA</div><p>AI-integrated B2B influencer marketing agency for AI SaaS companies.</p></div><div><h4>Pages</h4><a onclick="go('home')">Home</a><a onclick="go('about')">About</a><a onclick="go('services')">Services</a><a onclick="go('cases')">Case Studies</a><a onclick="go('contact')">Contact</a></div><div><h4>Services</h4><a onclick="go('services')">Influencer Marketing</a><a onclick="go('services')">Influencer Strategy</a><a onclick="go('services')">Nano-Creator Head-Hunting</a><a onclick="go('services')">Creator Brand Building</a><a onclick="go('services')">Influencer Consulting</a></div><div><h4>Connect</h4><a>hello@returnticketmedia.com</a><a>LinkedIn</a><a>Instagram</a><a>TikTok</a></div></div><div class="footer-bottom"><span>© 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
 </div>
 
-<!-- ============================================================ -->
-<!-- CASE STUDY DETAIL -->
-<!-- ============================================================ -->
-<div class="page" id="page-case-study-detail">
-  <div class="hero">
-    <div class="label">Case Study — Category</div>
-    <h1 class="heading-xl">Holding Case<br>Study Title.</h1>
-    <p class="subtitle">Client: [Client Name] — holding copy</p>
-  </div>
+<!-- ==================== CASE STUDY DETAIL ==================== -->
+<div class="page" id="page-case-detail">
+  <section class="hero">
+    <span class="hero-label">Nano-Creator Head-Hunting</span>
+    <h1 class="hero-heading">Scaling a Fashion Brand Through <span class="hi">Nano-Creators</span></h1>
+    <p class="hero-sub">Client: [Fashion Brand] — Struggling with influencer ROI on macro creators, they needed a new approach.</p>
+  </section>
 
-  <!-- Challenge -->
-  <div class="section">
-    <div class="grid-asym">
-      <div>
-        <div class="label">The Challenge</div>
-        <h2 class="heading-lg">Holding Section Heading</h2>
-        <p class="subtitle">Holding paragraph describing the client's challenge. This will be replaced with real case study content.</p>
-      </div>
-      <div class="placeholder-box tall">Supporting Visual</div>
+  <section class="section">
+    <span class="label">The Challenge</span>
+    <h2 class="heading">Macro Wasn't Working</h2>
+    <p class="sub">The brand had been investing heavily in macro-influencer campaigns but seeing diminishing returns. Engagement rates were dropping, content felt inauthentic, and the cost-per-acquisition was climbing.</p>
+  </section>
+
+  <div class="section-alt"><div class="inner">
+    <span class="label">The Strategy</span>
+    <h2 class="heading">Authentic at Scale</h2>
+    <p class="sub">We curated a network of 40 nano-creators with genuine affinity for the brand. Authentic content-first approach with creator freedom prioritised over brand scripts.</p>
+  </div></div>
+
+  <section class="section">
+    <span class="label">The Results</span>
+    <h2 class="heading">The Numbers</h2>
+    <div class="results-row">
+      <div class="result"><div class="rval">340%</div><div class="rdesc">Return on Investment</div></div>
+      <div class="result"><div class="rval">2.4M</div><div class="rdesc">Total Impressions</div></div>
+      <div class="result"><div class="rval">8.7%</div><div class="rdesc">Average Engagement Rate</div></div>
     </div>
-  </div>
-
-  <!-- Strategy -->
-  <div class="section-full">
-    <div class="inner">
-      <div class="label">The Strategy</div>
-      <h2 class="heading-lg">Holding Section Heading</h2>
-      <p class="subtitle" style="margin-bottom:32px;">Holding paragraph describing the strategic approach taken.</p>
-      <div class="grid-3">
-        <div class="card"><div class="card-title">Step 1</div><div class="card-desc">Holding strategy step description.</div></div>
-        <div class="card"><div class="card-title">Step 2</div><div class="card-desc">Holding strategy step description.</div></div>
-        <div class="card"><div class="card-title">Step 3</div><div class="card-desc">Holding strategy step description.</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Results -->
-  <div class="section">
-    <div class="label">The Results</div>
-    <h2 class="heading-lg" style="margin-bottom:32px;">Holding Section Heading</h2>
-    <div class="result-cards">
-      <div class="result-card"><div class="result-num">340%</div><div class="result-label">Metric Label — holding</div></div>
-      <div class="result-card"><div class="result-num">2.4M</div><div class="result-label">Metric Label — holding</div></div>
-      <div class="result-card"><div class="result-num">8.7%</div><div class="result-label">Metric Label — holding</div></div>
-    </div>
-
-    <!-- Testimonial -->
     <div class="testimonial">
-      <p class="quote">"Holding testimonial quote from the client. This will be replaced with real client feedback."</p>
-      <p class="attribution">— Client Name, Role — holding</p>
+      <p class="quote">"RTM completely transformed our approach to influencer marketing. The results speak for themselves."</p>
+      <p class="attr">— Marketing Director, [Fashion Brand]</p>
     </div>
-  </div>
+  </section>
 
-  <!-- Next Case Study -->
-  <div class="cta-section">
-    <div class="label">Next Case Study</div>
-    <div class="heading-lg">Next Case Study Title — Holding</div>
-    <a class="btn btn-outline" style="margin-top:16px;">Read Next →</a>
-  </div>
-
-  <footer class="footer"><div class="inner"><div class="footer-bottom"><span>&copy; 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
+  <div class="section-dark"><div class="inner cta-banner"><h2 class="heading">See more of our work</h2><button class="btn btn-accent" onclick="go('cases')">All Case Studies</button></div></div>
+  <footer class="footer"><div class="inner"><div class="footer-grid"><div class="brand-col"><div class="logo">RETURN TICKET <span>.</span> MEDIA</div><p>AI-integrated B2B influencer marketing agency for AI SaaS companies.</p></div><div><h4>Pages</h4><a onclick="go('home')">Home</a><a onclick="go('about')">About</a><a onclick="go('services')">Services</a><a onclick="go('cases')">Case Studies</a><a onclick="go('contact')">Contact</a></div><div><h4>Services</h4><a onclick="go('services')">Influencer Marketing</a><a onclick="go('services')">Influencer Strategy</a><a onclick="go('services')">Nano-Creator Head-Hunting</a><a onclick="go('services')">Creator Brand Building</a><a onclick="go('services')">Influencer Consulting</a></div><div><h4>Connect</h4><a>hello@returnticketmedia.com</a><a>LinkedIn</a><a>Instagram</a><a>TikTok</a></div></div><div class="footer-bottom"><span>© 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
 </div>
 
-<!-- ============================================================ -->
-<!-- CONTACT PAGE -->
-<!-- ============================================================ -->
+<!-- ==================== CONTACT ==================== -->
 <div class="page" id="page-contact">
-  <div class="hero">
-    <div class="label">Contact</div>
-    <h1 class="heading-xl">Holding Contact<br>Headline.</h1>
-    <p class="subtitle">Holding subtitle — invitation to get in touch.</p>
-  </div>
+  <section class="hero">
+    <span class="hero-label">Contact</span>
+    <h1 class="hero-heading">Let's Build Something <span class="hi">Together.</span></h1>
+    <p class="hero-sub">Whether you're an AI SaaS company looking for creators or a creator looking to grow, we'd love to hear from you.</p>
+  </section>
 
-  <div class="section">
-    <div class="grid-asym">
-      <!-- Contact Form -->
+  <section class="section">
+    <div class="form-grid">
       <div>
-        <div class="form-group">
-          <label>Your Name</label>
-          <input type="text" placeholder="Holding placeholder">
-        </div>
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" placeholder="Holding placeholder">
-        </div>
-        <div class="form-group">
-          <label>Company</label>
-          <input type="text" placeholder="Holding placeholder">
-        </div>
-        <div class="grid-2">
-          <div class="form-group">
-            <label>Budget Range</label>
-            <select>
-              <option>Select budget</option>
-              <option>&lt; £5,000</option>
-              <option>£5,000 – £15,000</option>
-              <option>£15,000 – £50,000</option>
-              <option>£50,000+</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Service Interest</label>
-            <select>
-              <option>Select service</option>
-              <option>Influencer Marketing</option>
-              <option>Influencer Strategy</option>
-              <option>Nano-Creator Head-Hunting</option>
-              <option>Creator Brand Building</option>
-              <option>Influencer Consulting</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Message</label>
-          <textarea placeholder="Holding placeholder"></textarea>
-        </div>
-        <button class="btn btn-gold" style="width:100%;">Send Message</button>
+        <div class="form-group"><label>Name</label><input type="text" placeholder="Your name"></div>
+        <div class="form-group"><label>Email</label><input type="email" placeholder="you@company.com"></div>
+        <div class="form-group"><label>Company</label><input type="text" placeholder="Company name"></div>
+        <div class="form-group"><label>Budget Range</label><select><option value="">Select a range</option><option>&lt; £5,000</option><option>£5,000 – £15,000</option><option>£15,000 – £50,000</option><option>£50,000+</option></select></div>
+        <div class="form-group"><label>Service Interest</label><select><option value="">Select a service</option><option>Influencer Marketing</option><option>Influencer Strategy</option><option>Nano-Creator Head-Hunting</option><option>Creator Brand Building</option><option>Influencer Consulting</option></select></div>
+        <div class="form-group"><label>Message</label><textarea placeholder="Tell us about your project..."></textarea></div>
+        <button class="btn btn-accent">Send Message</button>
       </div>
-
-      <!-- Contact Info -->
-      <div>
-        <div style="margin-bottom:40px;">
-          <div class="label">Get in Touch</div>
-          <h3 class="heading-md">Direct Contact</h3>
-          <p class="subtitle" style="margin-bottom:24px;">hello@returnticketmedia.com</p>
-          <div style="display:flex; gap:16px; flex-wrap:wrap;">
-            <a class="btn btn-outline" style="padding:10px 20px; font-size:12px;">LinkedIn</a>
-            <a class="btn btn-outline" style="padding:10px 20px; font-size:12px;">Instagram</a>
-            <a class="btn btn-outline" style="padding:10px 20px; font-size:12px;">TikTok</a>
-          </div>
-        </div>
-        <div>
-          <div class="label">Location</div>
-          <h3 class="heading-md">London, UK</h3>
-        </div>
+      <div class="contact-info">
+        <h4>Email</h4><p><a>hello@returnticketmedia.com</a></p>
+        <br>
+        <h4>Social</h4><p><a>LinkedIn</a><br><a>Instagram</a><br><a>TikTok</a></p>
+        <br>
+        <h4>Location</h4><p>London, UK</p>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- FAQ -->
-  <div class="section-full">
-    <div class="inner">
-      <div class="label">FAQ</div>
-      <h2 class="heading-lg" style="margin-bottom:32px;">Holding Section Heading</h2>
-      <div>
-        <div class="faq-item" onclick="this.classList.toggle('open')">
-          <div class="faq-q">Holding FAQ question one?</div>
-          <div class="faq-a">Holding answer text — this will be replaced with approved copy.</div>
-        </div>
-        <div class="faq-item" onclick="this.classList.toggle('open')">
-          <div class="faq-q">Holding FAQ question two?</div>
-          <div class="faq-a">Holding answer text — this will be replaced with approved copy.</div>
-        </div>
-        <div class="faq-item" onclick="this.classList.toggle('open')">
-          <div class="faq-q">Holding FAQ question three?</div>
-          <div class="faq-a">Holding answer text — this will be replaced with approved copy.</div>
-        </div>
-        <div class="faq-item" onclick="this.classList.toggle('open')">
-          <div class="faq-q">Holding FAQ question four?</div>
-          <div class="faq-a">Holding answer text — this will be replaced with approved copy.</div>
-        </div>
-        <div class="faq-item" onclick="this.classList.toggle('open')">
-          <div class="faq-q">Holding FAQ question five?</div>
-          <div class="faq-a">Holding answer text — this will be replaced with approved copy.</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="section-alt"><div class="inner">
+    <span class="label">FAQ</span>
+    <h2 class="heading" style="margin-bottom:32px;">Common Questions</h2>
+    <div class="faq-item"><div class="faq-q">What's your typical retainer structure?</div><div class="faq-a">We offer monthly retainers starting from £3,000, tailored to scope and scale.</div></div>
+    <div class="faq-item"><div class="faq-q">How long does a typical campaign take?</div><div class="faq-a">4–12 weeks depending on complexity. Strategy projects can be shorter.</div></div>
+    <div class="faq-item"><div class="faq-q">Do you work with both brands and creators?</div><div class="faq-a">Yes. We sit at the intersection of both sides.</div></div>
+    <div class="faq-item"><div class="faq-q">What platforms do you specialise in?</div><div class="faq-a">TikTok, Instagram, YouTube, and Xiaohongshu for China-market campaigns.</div></div>
+    <div class="faq-item"><div class="faq-q">Can we start with a consulting session?</div><div class="faq-a">Absolutely. Book a strategy call and we'll assess the best path forward.</div></div>
+  </div></div>
 
-  <footer class="footer"><div class="inner"><div class="footer-bottom"><span>&copy; 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
+  <footer class="footer"><div class="inner"><div class="footer-grid"><div class="brand-col"><div class="logo">RETURN TICKET <span>.</span> MEDIA</div><p>AI-integrated B2B influencer marketing agency for AI SaaS companies.</p></div><div><h4>Pages</h4><a onclick="go('home')">Home</a><a onclick="go('about')">About</a><a onclick="go('services')">Services</a><a onclick="go('cases')">Case Studies</a><a onclick="go('contact')">Contact</a></div><div><h4>Services</h4><a onclick="go('services')">Influencer Marketing</a><a onclick="go('services')">Influencer Strategy</a><a onclick="go('services')">Nano-Creator Head-Hunting</a><a onclick="go('services')">Creator Brand Building</a><a onclick="go('services')">Influencer Consulting</a></div><div><h4>Connect</h4><a>hello@returnticketmedia.com</a><a>LinkedIn</a><a>Instagram</a><a>TikTok</a></div></div><div class="footer-bottom"><span>© 2026 Return Ticket Media</span><span>London, UK</span></div></div></footer>
 </div>
 
-<!-- ============================================================ -->
-<!-- BOTTOM NAVIGATION -->
-<!-- ============================================================ -->
-<nav class="bottom-nav">
-  <button class="nav-item active" onclick="showPage('home')">
-    <div class="icon"></div>
-    Home
-  </button>
-  <button class="nav-item" onclick="showPage('about')">
-    <div class="icon"></div>
-    About
-  </button>
-  <button class="nav-item" onclick="showPage('services')">
-    <div class="icon"></div>
-    Services
-  </button>
-  <button class="nav-item" onclick="showPage('case-studies')">
-    <div class="icon"></div>
-    Work
-  </button>
-  <button class="nav-item" onclick="showPage('contact')">
-    <div class="icon"></div>
-    Contact
-  </button>
-  <button class="nav-item cta-btn">Book a Call</button>
-</nav>
+<!-- BOTTOM NAV (mobile) -->
+<div class="bottom-nav" id="bottomNav">
+  <button data-page="home" class="active" onclick="go('home')"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10"/></svg>Home</button>
+  <button data-page="about" onclick="go('about')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>About</button>
+  <button data-page="services" onclick="go('services')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Services</button>
+  <button data-page="cases" onclick="go('cases')"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Work</button>
+  <button class="cta-pill" onclick="openPopup()">Book a Call</button>
+</div>
 
-<!-- ============================================================ -->
-<!-- LEAD POPUP -->
-<!-- ============================================================ -->
-<button class="popup-trigger" onclick="document.getElementById('leadPopup').classList.add('show')">
-  Preview Popup →
-</button>
-
-<div class="popup-overlay" id="leadPopup">
+<!-- POPUP -->
+<div class="popup-overlay" id="popup">
   <div class="popup-card">
-    <button class="popup-close" onclick="document.getElementById('leadPopup').classList.remove('show')">&times;</button>
-    <div class="label">Free Download</div>
-    <div class="heading-md" style="margin-bottom:8px;">Holding Popup Headline</div>
-    <p class="subtitle">Holding description — what the guide covers and why it's valuable. All copy is placeholder.</p>
-    <div class="popup-email-row">
-      <input type="email" placeholder="Your email address" style="padding:14px 16px; background:var(--card); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:14px; font-family:inherit;">
-      <button class="btn btn-gold" style="white-space:nowrap;">Download Now</button>
-    </div>
+    <button class="popup-close" onclick="closePopup()">&times;</button>
+    <span class="label" style="text-align:center;">Get in Touch</span>
+    <h2 class="heading" style="font-size:1.5rem;text-align:center;margin-bottom:8px;">Book a Strategy Call</h2>
+    <p class="sub" style="text-align:center;margin:0 auto 28px;font-size:.9rem;">Leave your details and we'll be in touch within 24 hours.</p>
+    <div class="form-group"><input type="text" placeholder="Your name"></div>
+    <div class="form-group"><input type="email" placeholder="Work email"></div>
+    <div class="form-group"><input type="text" placeholder="Company"></div>
+    <button class="btn btn-accent" style="width:100%;" onclick="closePopup()">Send Request</button>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- JAVASCRIPT -->
-<!-- ============================================================ -->
 <script>
-function showPage(pageId) {
-  // Hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // Show target page
-  const target = document.getElementById('page-' + pageId);
-  if (target) target.classList.add('active');
-
-  // Update page tabs
-  document.querySelectorAll('.page-tabs button').forEach(btn => btn.classList.remove('active'));
-  const tabs = document.querySelectorAll('.page-tabs button');
-  tabs.forEach(btn => {
-    const tabName = btn.textContent.trim().toLowerCase().replace(/ /g, '-');
-    const matchMap = {
-      'homepage': 'home', 'about': 'about', 'services': 'services',
-      'case-studies': 'case-studies', 'case-study-detail': 'case-study-detail', 'contact': 'contact'
-    };
-    if (matchMap[tabName] === pageId) btn.classList.add('active');
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const t=document.getElementById('page-'+id);
+  if(t)t.classList.add('active');
+  document.querySelectorAll('.bottom-nav button:not(.cta-pill)').forEach(b=>{
+    b.classList.toggle('active',b.dataset.page===id);
   });
-
-  // Update top nav
-  document.querySelectorAll('.top-nav .nav-links a').forEach(a => {
-    a.classList.remove('active');
-    const linkMap = { 'Home': 'home', 'About': 'about', 'Services': 'services', 'Case Studies': 'case-studies', 'Contact': 'contact' };
-    if (linkMap[a.textContent.trim()] === pageId) a.classList.add('active');
-  });
-
-  // Update bottom nav
-  document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => {
-    btn.classList.remove('active');
-    const navMap = { 'Home': 'home', 'About': 'about', 'Services': 'services', 'Work': 'case-studies', 'Contact': 'contact' };
-    const text = btn.textContent.trim();
-    if (navMap[text] === pageId) btn.classList.add('active');
-  });
-
-  // Scroll to top
-  window.scrollTo(0, 0);
+  window.scrollTo({top:0,behavior:'instant'});
+  if(document.getElementById('menu').classList.contains('open'))toggleMenu();
 }
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('open');
+  document.body.style.overflow=document.getElementById('menu').classList.contains('open')?'hidden':'';
+}
+function openPopup(){
+  document.getElementById('popup').classList.add('show');
+  document.body.style.overflow='hidden';
+  if(document.getElementById('menu').classList.contains('open'))toggleMenu();
+}
+function closePopup(){
+  document.getElementById('popup').classList.remove('show');
+  document.body.style.overflow='';
+}
+document.getElementById('popup').addEventListener('click',function(e){if(e.target===this)closePopup();});
+window.addEventListener('scroll',()=>{document.getElementById('topbar').classList.toggle('scrolled',window.scrollY>60);},{passive:true});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>{
+  const item=q.parentElement;
+  document.querySelectorAll('.faq-item.open').forEach(o=>{if(o!==item)o.classList.remove('open');});
+  item.classList.toggle('open');
+}));
 </script>
-
 </body>
 </html>
