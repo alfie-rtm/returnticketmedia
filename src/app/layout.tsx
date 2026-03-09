@@ -3,9 +3,9 @@ import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
-  title: "Return Ticket Media | AI Influencer Marketing Agency",
+  title: "Return Ticket Media | AI Influencer Marketing by a 10M Follower Creator",
   description:
-    "We help Tech, AI SaaS, and Fintech brands scale with creative creator partnerships.",
+    "The only influencer agency run by someone who built 10M followers. AI-powered creator discovery for AI, SaaS, and fintech brands.",
 };
 
 export default function RootLayout({
